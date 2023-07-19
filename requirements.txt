@@ -16,3 +16,4 @@ pycodestyle
 pytest
 Werkzeug==2.3.6
 requests==2.31.0
+openllm
