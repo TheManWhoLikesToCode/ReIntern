@@ -22,21 +22,19 @@ app.config['SECRET_KEY'] = 'your_secret_key'  # Add a secret key for security
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
 db = SQLAlchemy(app)
 
+
 login_manager = LoginManager(app)
 login_manager.login_view = 'login'  # Specify the login view route name
 
-## User Loader to keep track of users
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
 
-## Initial Router
-@app.route('/', methods=['GET', 'POST'])
 
+@app.route('/', methods=['GET', 'POST'])
 @app.route('/home', methods=['GET', 'POST'])
 def home():
     return render_template('landing_page.html')
-
 
 # Routes for registration and login
 
@@ -84,12 +82,10 @@ def calendar():
         flash(f'Error occurred: {str(e)}', 'danger')
     return redirect(url_for('home'))  # Redirect back to the homepage after fetching and displaying events
 
-
-
 @app.route("/results", methods=('GET', 'POST'))
 def result():
     return render_template('results.html')
 
 
 if __name__ == '__main__':
-    app.run(debug=True, host="0.0.0.0", port=5001)
+    app.run(debug=True, host="0.0.0.0")

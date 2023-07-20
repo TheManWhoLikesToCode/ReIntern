@@ -1,3 +1,41 @@
+<<<<<<< HEAD
+<!-- html file for the results/dashboard page-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Task Manager</h1>
+        <div class="tasks">
+            <h2>Tasks</h2>
+            <ul id="taskList">
+                <!-- Tasks added here w/ JS -->
+            </ul>
+            <input type="text" id="newTask" placeholder="Enter a new task...">
+            <button onclick="addTask()">Add Task</button>
+        </div>
+
+        <div class="email">
+            <h2>Weeekly Email to Manager/Mentor</h2>
+            <p id="emailContent"></p>
+            <button onclick="generateEmail()">Generate Email</button>
+        </div>
+
+        <div class="bragSheet">
+            <h2>Intern Brag Sheet</h2>
+            <textarea id="bragSheetContent" placeholder="Write your accomplishments and contributions here..."></textarea>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
+=======
 {% extends 'layout_two.html' %} {% block content %}
 <!DOCTYPE html>
 <html lang="en">
@@ -42,3 +80,4 @@
   </body>
 </html>
 {% endblock content %}
+>>>>>>> origin/main
