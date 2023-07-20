@@ -5,9 +5,11 @@
 from flask import Flask, render_template, redirect, url_for, flash
 from flask_sqlalchemy import SQLAlchemy
 from flask_behind_proxy import FlaskBehindProxy
-from flask_login import LoginManager, UserMixin, login_user, login_required, current_user
+from flask_login import LoginManager, UserMixin, login_user, login_required, current_user,logout_user
 import git
 import threading
+from google_calendar_api import main as google_calendar_main, revoke_tokens      ##Import Google Calendar API File 
+
 
 ##Extra python files with their respective 
 
@@ -30,7 +32,7 @@ def load_user(user_id):
 
 ## Initial Router
 @app.route('/')
-def hello():
+def home():
     return 'Hello World!'
 
 
@@ -48,14 +50,14 @@ def register():
         db.session.commit()
         flash(f'Account created for {form.email.data}!', 'success')
         login_user(user)
-        return redirect(url_for('hello'))   ## Change for the results page function
+        return redirect(url_for('home'))   ## Change for the results page function
 
     return render_template('signup.html', title='Register', form=form)
 
 @app.route("/login", methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
-        return redirect(url_for('hello'))  # Redirect to the homepage
+        return redirect(url_for('home'))  # Redirect to the homepage
 
     form = LoginForm()
     if form.validate_on_submit():
@@ -69,6 +71,15 @@ def login():
 
     return render_template('login.html', title='Log In', form=form)
 
+
+@app.route('/calendar')
+@login_required
+def calendar():
+    try:
+        google_calendar_main()
+    except Exception as e:
+        flash(f'Error occurred: {str(e)}', 'danger')
+    return redirect(url_for('home'))  # Redirect back to the homepage after fetching and displaying events
 
 
 
