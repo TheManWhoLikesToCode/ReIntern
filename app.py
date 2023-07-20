@@ -32,6 +32,7 @@ def load_user(user_id):
 
 ## Initial Router
 @app.route('/', methods=['GET', 'POST'])
+
 @app.route('/home', methods=['GET', 'POST'])
 def home():
     return render_template('landing_page.html')
@@ -53,7 +54,7 @@ def register():
         login_user(user)
         return redirect(url_for('home'))   ## Change for the results page function
 
-    return render_template('signup.html', title='Register', form=form)
+    return render_template('register.html', title='Register', form=form)
 
 
 @app.route("/login", methods=['GET', 'POST'])

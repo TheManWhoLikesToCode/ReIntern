@@ -11,7 +11,7 @@
     </div>
     <img src={{ url_for('static', filename="sample_image.png") }} class="main_image center_object" alt="Main Image">
     <div class="button-group">
-        <a href="#" class="link_no_decoration">
+        <a href={{ url_for('register') }} class="link_no_decoration">
             <button class="btn center_object object_bottom"> Signup </button>
         </a>
         <a href={{ url_for('login') }} class="link_no_decoration">

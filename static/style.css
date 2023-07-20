@@ -99,7 +99,6 @@ form {
   flex-direction: column;
   width: 100%;
   max-width: 300px; /* Reduced the maximum width of the form */
-  max-height: 30vh; /* Reduced the maximum height of the form */
   padding: 20px;
   background-color: white;
   border-radius: 10px;
@@ -116,7 +115,11 @@ form {
   font-size: 1em;
   margin-bottom: 5px;
 }
-
+.title {
+  font-size: 2.5em; /* Increase the size of the title */
+  font-weight: bold; /* Make the title bold */
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Add a shadow to the title */
+}
 .form-input {
   padding: 10px;
   border-radius: 5px;
@@ -130,4 +133,45 @@ form {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.container {
+  max-width: 800px;
+  margin: 20px auto; /* This will create a space at the top */
+  padding: 20px;
+  background-color: #e5e5e5;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.task-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px; /* This will create a space between each task box */
+}
+
+.tasks,
+.email,
+.dailySummary {
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+h1,
+h2 {
+  color: #16191c;
+  padding-top: 30px;
+}
+
+.tasks,
+.email,
+.dailySummary {
+  margin-bottom: 20px;
+}
+
+#newTask,
+#taskDate {
+  margin-bottom: 10px;
 }
