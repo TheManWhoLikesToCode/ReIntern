@@ -1,3 +1,5 @@
+# Forked from FREE_Auto_GPT author: IntelligenzaArtificiale
+
 from EdgeGPT import Chatbot, ConversationStyle
 import asyncio
 from langchain.llms.base import LLM
