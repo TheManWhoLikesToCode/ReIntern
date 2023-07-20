@@ -31,9 +31,10 @@ def load_user(user_id):
     return User.query.get(int(user_id))
 
 ## Initial Router
-@app.route('/')
+@app.route('/', methods=['GET', 'POST'])
+@app.route('/home', methods=['GET', 'POST'])
 def home():
-    return 'Hello World!'
+    return render_template('landing_page.html')
 
 
 # Routes for registration and login
