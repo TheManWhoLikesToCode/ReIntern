@@ -2,29 +2,39 @@
 # Date: 7/19/2023
 # Purpose: Query openLLM models like GPT-3
 
-import openllm
+from BingChatAPI import BingChat
 
 
 def query_llm(prompt):
-
-    # Create an HTTPClient pointed to the openLLM server
-    client = openllm.client.HTTPClient('http://0.0.0.0:3000')
+    # Create an instance of BingChat
+    llm = BingChat(cookiepath="/Users/blackhat/Documents/GitHub/ReIntern/cookiesBing.json",
+                   conversation_style="balanced")
 
     # Query the LLM with the provided prompt
-    response = client.query(prompt)
+    response = llm(prompt)
 
     # Return the LLM's response
     return response
 
-def generate_brag_sheet(summary, name):
 
+def generate_brag_sheet(summary, name):
     # Define the prompt
     prompt = """
-    Act as an internship assistant for an intern {name} who has completed their weekly internship and sent me their day-to-day work for this week:
+    You are an AI language model. Your task is to generate a brag sheet for an intern named {name} based on their weekly activities. Here are the activities:
 
     {summary}
 
-    Based on this, provide 5 bullet points I can add to {name}'s brag sheet that emphasize their key accomplishments, skills demonstrated, and contributions to the projects from this week in a positive and impressive way:
+    Now, let's break down these activities and translate them into key accomplishments, skills demonstrated, and contributions to the projects. 
+
+    Start by identifying specific tasks and projects {name} has worked on. Highlight any technical skills {name} has demonstrated during these tasks. 
+
+    Next, look for instances where {name} has shown soft skills such as communication and teamwork. 
+
+    Then, identify any improvements or optimizations {name} has made. 
+
+    Finally, summarize {name}'s contributions to the team and the project. 
+
+    Based on this analysis, generate 5 bullet points for {name}'s brag sheet.
     """.format(summary=summary, name=name)
 
     # Query the LLM with the prompt
@@ -32,7 +42,8 @@ def generate_brag_sheet(summary, name):
 
     # Process the response to create a brag sheet
     brag_sheet = response.split('. ')
-    brag_sheet = [brag_sheet[0]] + ['* ' + item for item in brag_sheet[1:] if item]
+    brag_sheet = [brag_sheet[0]] + \
+        ['* ' + item for item in brag_sheet[1:] if item]
 
     # Return the brag sheet
     return '\n'.join(brag_sheet)
@@ -56,4 +67,3 @@ Friday: I ended the week by documenting my work on the project. I created a deta
 brag_sheet_bullets = generate_brag_sheet(summary, name)
 
 print(brag_sheet_bullets)
-

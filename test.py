@@ -1,8 +1,5 @@
-from __future__ import print_function
-
+import os
 import datetime
-import os.path
-
 from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
 from google_auth_oauthlib.flow import InstalledAppFlow
@@ -11,6 +8,13 @@ from googleapiclient.errors import HttpError
 
 # If modifying these scopes, delete the file token.json.
 SCOPES = ['https://www.googleapis.com/auth/calendar.readonly']
+
+
+def revoke_tokens():
+    """Revokes the user's access tokens by deleting the token.json file."""
+    if os.path.exists('token.json'):
+        os.remove('token.json')
+        print("Logged out. You can now run the program and authorize a new account.")
 
 
 def main():
@@ -23,14 +27,12 @@ def main():
     # time.
     if os.path.exists('token.json'):
         creds = Credentials.from_authorized_user_file('token.json', SCOPES)
+
     # If there are no (valid) credentials available, let the user log in.
     if not creds or not creds.valid:
-        if creds and creds.expired and creds.refresh_token:
-            creds.refresh(Request())
-        else:
-            flow = InstalledAppFlow.from_client_secrets_file(
-                'credentials.json', SCOPES)
-            creds = flow.run_local_server(port=0)
+        flow = InstalledAppFlow.from_client_secrets_file(
+            'credentials.json', SCOPES)
+        creds = flow.run_local_server(port=0)
         # Save the credentials for the next run
         with open('token.json', 'w') as token:
             token.write(creds.to_json())
@@ -38,22 +40,31 @@ def main():
     try:
         service = build('calendar', 'v3', credentials=creds)
 
-        # Call the Calendar API
-        now = datetime.datetime.utcnow().isoformat() + 'Z'  # 'Z' indicates UTC time
-        print('Getting the upcoming 10 events')
-        events_result = service.events().list(calendarId='primary', timeMin=now,
-                                              maxResults=10, singleEvents=True,
-                                              orderBy='startTime').execute()
-        events = events_result.get('items', [])
+        # Option to log out or re-authenticate
+        user_input = input("Do you want to (1) see upcoming events or (2) log out? Enter 1 or 2: ")
+        if user_input == "1":
+            # Call the Calendar API
+            now = datetime.datetime.utcnow().isoformat() + 'Z'  # 'Z' indicates UTC time
+            print('Getting the upcoming 10 events')
+            events_result = service.events().list(calendarId='primary', timeMin=now,
+                                                  maxResults=10, singleEvents=True,
+                                                  orderBy='startTime').execute()
+            events = events_result.get('items', [])
 
-        if not events:
-            print('No upcoming events found.')
-            return
+            if not events:
+                print('No upcoming events found.')
+                return
 
-        # Prints the start and name of the next 10 events
-        for event in events:
-            start = event['start'].get('dateTime',event['start'].get('date'))
-            print(start," ", event['summary'])
+            # Prints the start and name of the next 10 events
+            for event in events:
+                start = event['start'].get('dateTime', event['start'].get('date'))
+                print(start, " ", event['summary'])
+
+        elif user_input == "2":
+            revoke_tokens()
+
+        else:
+            print("Invalid input. Please enter 1 or 2.")
 
     except HttpError as error:
         print('An error occurred: %s' % error)
