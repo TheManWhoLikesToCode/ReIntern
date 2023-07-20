@@ -1,7 +1,44 @@
-{% extends 'layout_two.html' %}
-{% block content %}
-<div class="results_page">
-    <h1> Hello World </h1>
-</div>
+{% extends 'layout_two.html' %} {% block content %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1 class="title">Results</h1>
+      <div class="task-container">
+        <div class="tasks">
+          <h2>Tasks</h2>
+          <ul id="taskList">
+            <!-- Tasks added here w/ JS -->
+          </ul>
+          <input type="text" id="newTask" placeholder="Enter a new task..." />
+          <input type="date" id="taskDate" />
+          <button class="btn" onclick="addTask()">Add Task</button>
+        </div>
 
+        <div class="email">
+          <h2>Weekly Email to Manager/Mentor</h2>
+          <p id="emailContent"></p>
+          <button class="btn" onclick="generateEmail()">Generate Email</button>
+        </div>
+
+        <div class="dailySummary">
+          <h2>Daily Summary</h2>
+          <textarea
+            id="dailySummary"
+            placeholder="Write your accomplishments and contributions here for the day here."
+          ></textarea>
+          <button class="btn" onclick="submitSummary()">Submit</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
 {% endblock content %}
