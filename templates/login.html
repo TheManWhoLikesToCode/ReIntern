@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 {% extends "layout_one.html" %}
 {% block content %}
 
@@ -17,3 +18,40 @@
 </form>
 
 {% endblock content %}
+=======
+{% extends "layout_one.html" %} {% block content %}
+
+<div class="viewpoint">
+  <div class="hero-text">
+    <h1 class="text-center">Welcome to ReIntern</h1>
+    <h3 class="text-center">Please Login</h3>
+  </div>
+  <form class="form-container">
+    <div class="form-group">
+      <label for="email">Email Address</label>
+      <input
+        type="email"
+        id="email"
+        placeholder="Enter Email Address"
+        class="form-input"
+        required
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input
+        type="password"
+        id="password"
+        placeholder="Enter Password"
+        class="form-input"
+        required
+      />
+    </div>
+
+    <button class="btn center_object" type="submit">Login</button>
+  </form>
+</div>
+
+{% endblock content %}
+>>>>>>> origin/main

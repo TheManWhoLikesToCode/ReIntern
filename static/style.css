@@ -1,5 +1,6 @@
 /* Layout 1 Page */
 
+<<<<<<< HEAD
 body{
     height: 100%;
     width: 100%;
@@ -43,10 +44,94 @@ body{
 
 .main_image{
     width: 50%;
+=======
+body {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  width: 100%;
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  background-image: linear-gradient(
+      rgba(229, 229, 229, 0.5),
+      rgba(229, 229, 229, 0.5)
+    ),
+    url("/static/background_image.jpeg");
+  background-size: cover;
+  background-position: center;
+}
+
+.link_no_decoration {
+  text-decoration: none;
+  color: inherit;
+}
+
+.hero-text {
+  text-align: center;
+  margin-bottom: 20px;
+  position: relative;
+  z-index: 1;
+}
+
+.hero-text h1 {
+  font-size: 2.5em;
+  color: #16191c;
+}
+
+.hero-text h3 {
+  font-size: 1.5em;
+  color: #4b535a;
+}
+
+.button-group {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  position: relative;
+  z-index: 1;
+}
+
+.btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  background-color: #16191c;
+  color: white;
+  font-size: 1em;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+  background-color: #4b535a;
+}
+
+.viewpoint {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 10vh auto;
+  width: 45vw;
+  height: 70vh;
+  background-color: #e5e5e5;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+.main_image {
+  width: 50%;
+  object-fit: cover;
+  margin-bottom: 20px;
+  position: relative;
+  z-index: 1;
+>>>>>>> origin/main
 }
 
 /* Login HTML */
 
+<<<<<<< HEAD
 form{
     margin: 5%;
     height: 75vh;
@@ -56,3 +141,95 @@ form{
 .results_page{
     margin: 5%;
 }
+=======
+form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 5%;
+  height: 50vh; /* Reduced the height of the form */
+}
+
+.form-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 300px; /* Reduced the maximum width of the form */
+  padding: 20px;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  font-size: 1em;
+  margin-bottom: 5px;
+}
+.title {
+  font-size: 2.5em; /* Increase the size of the title */
+  font-weight: bold; /* Make the title bold */
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Add a shadow to the title */
+}
+.form-input {
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+/* Results Page */
+
+.results_page {
+  margin: 5%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.container {
+  max-width: 800px;
+  margin: 20px auto; /* This will create a space at the top */
+  padding: 20px;
+  background-color: #e5e5e5;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.task-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px; /* This will create a space between each task box */
+}
+
+.tasks,
+.email,
+.dailySummary {
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+h1,
+h2 {
+  color: #16191c;
+  padding-top: 30px;
+}
+
+.tasks,
+.email,
+.dailySummary {
+  margin-bottom: 20px;
+}
+
+#newTask,
+#taskDate {
+  margin-bottom: 10px;
+}
+>>>>>>> origin/main
