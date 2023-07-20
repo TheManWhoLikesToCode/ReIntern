@@ -54,6 +54,7 @@ def register():
 
     return render_template('signup.html', title='Register', form=form)
 
+
 @app.route("/login", methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
@@ -81,6 +82,11 @@ def calendar():
         flash(f'Error occurred: {str(e)}', 'danger')
     return redirect(url_for('home'))  # Redirect back to the homepage after fetching and displaying events
 
+
+
+@app.route("/results", methods=('GET', 'POST'))
+def result():
+    return render_template('results.html')
 
 
 if __name__ == '__main__':
