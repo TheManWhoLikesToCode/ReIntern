@@ -1,0 +1,58 @@
+/* Layout 1 Page */
+
+body{
+    height: 100%;
+    width: 100%;
+}
+.link_no_decoration{
+    text-decoration: none;
+}
+.light_text{
+    color: white;
+}
+
+.dark_button_hover:hover{
+    color: lightgray;
+}
+
+.footer{
+    width: 100%;
+    height: 100px;
+}
+
+/* Landing Page */
+
+.viewpoint{
+    display: block;
+    margin: 10vh auto 10vh auto;
+
+    width: 45vw;
+    height: 70vh;
+    background-color: lightgray;
+}
+
+.center_object{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.object_bottom{
+    text-align: bottom;
+}
+
+.main_image{
+    width: 50%;
+}
+
+/* Login HTML */
+
+form{
+    margin: 5%;
+    height: 75vh;
+}
+
+/* Results Page */
+.results_page{
+    margin: 5%;
+}
