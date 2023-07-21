@@ -23,7 +23,11 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = 'your secret key'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 db = SQLAlchemy(app)
-
+login_manager = LoginManager(app)
+login_manager.login_view = 'login'  # Specify the login view route name
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -78,32 +82,27 @@ def logout():
     return redirect(url_for('login'))
 
 
-@app.route("/register", methods=['GET', 'POST'])
+@app.route('/register', methods=['GET', 'POST'])
 def register():
-    if request.method == 'POST':
-        name = request.form.get('name')
-        password = generate_password_hash(
-            request.form.get('password'), method='sha256')
-        email = request.form.get('email')
-        # Added print statement
-        print(f"Attempting to register with email: {email}, name: {name}")
-        user = User.query.filter_by(email=email).first()
-        if user:
-            flash('Email already exists !')
-            # Added print statement
-            print("Registration failed, email already exists")
-        else:
-            new_user = User(name=name, password=password, email=email)
-            db.session.add(new_user)
-            db.session.commit()
-            flash('You have successfully registered !')
-            print("Registration successful")  # Added print statement
-            return redirect(url_for('login'))
-    return render_template('register.html')
+    if current_user.is_authenticated:
+        return redirect(url_for('hello'))
+
+    form = RegistrationForm()
+    if form.validate_on_submit():
+        user = User(email=form.email.data, password=form.password.data)
+        db.session.add(user)
+        db.session.commit()
+        flash(f'Account created for {form.email.data}!', 'success')
+        login_user(user)
+        return redirect(url_for('home'))   ## Change for the results page function
+
+    return render_template('register.html', title='Register', form=form)
 
 @app.route('/calendar_display', methods=['GET', 'POST'])
 def calendar_display():
-    return render_template('calendar.html')
+    events = google_calendar_main()
+    print(events)
+    return render_template('calendar.html', events=events)
 
 @app.route("/results", methods=('GET', 'POST'))
 def result():
