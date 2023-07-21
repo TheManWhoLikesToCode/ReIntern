@@ -11,12 +11,12 @@ body {
   background-position: center;
 }
 
-.link_no_decoration{
-    text-decoration: none;
+.link_no_decoration {
+  text-decoration: none;
 }
 
-.light_text{
-    color: white;
+.light_text {
+  color: white;
 }
 
 .btn {
@@ -32,29 +32,27 @@ body {
 
 /* Results Page */
 
-.results_page{
-    margin: 2%;
+.results_page {
+  margin: 2%;
 }
 
-.right_container{
-    border-left: solid;
-    border-color: black;
-    border-width: 1px;
+.right_container {
+  border-left: solid;
+  border-color: black;
+  border-width: 1px;
 }
 
-.center_object{
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    text-align: center;
+.center_object {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
 }
 
-@media screen and (max-width: 1000px){
-
-.right_container{
+@media screen and (max-width: 1000px) {
+  .right_container {
     border-left: none;
-}
-
+  }
 }
 
 /* Dashboard Page */
@@ -109,18 +107,31 @@ h2 {
 
 /* Calendar Page */
 
-.calendar_page{
-    margin: 2%;
+.calendar_page {
+  margin: 2%;
 }
 
 /* Wiki Page */
 
-.wiki_page{
-    margin: 2%;
+.wiki_page {
+  margin: 2%;
 }
 
 /* Settings Page */
 
-.settings_page{
-    margin: 2%;
+.settings_page {
+  margin: 2%;
 }
+
+textarea {
+  width: 100%; /* Make the textarea take up the full width of its container */
+  min-height: 100px; /* Set a minimum height for the textarea */
+  padding: 10px; /* Add some padding inside the textarea */
+  border-radius: 5px; /* Round the corners of the textarea */
+  border: 1px solid #ccc; /* Add a border around the textarea */
+  font-family: Arial, sans-serif; /* Set the font for the textarea */
+  font-size: 1em; /* Set the font size for the textarea */
+  margin-bottom: 20px;
+}
+
+

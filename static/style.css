@@ -12,7 +12,7 @@ body {
   background-position: center;
 }
 
-.main_video{
+.main_video {
   position: fixed;
   width: 100%;
   z-index: -1;
@@ -127,8 +127,6 @@ form {
   border: 1px solid #ccc;
 }
 
-/* Results Page */
-
 .results_page {
   margin: 5%;
   display: flex;
@@ -180,13 +178,12 @@ h2 {
   margin-bottom: 10px;
 }
 
-textarea {
-  width: 100%; /* Make the textarea take up the full width of its container */
-  min-height: 100px; /* Set a minimum height for the textarea */
-  padding: 10px; /* Add some padding inside the textarea */
-  border-radius: 5px; /* Round the corners of the textarea */
-  border: 1px solid #ccc; /* Add a border around the textarea */
-  font-family: Arial, sans-serif; /* Set the font for the textarea */
-  font-size: 1em; /* Set the font size for the textarea */
-  margin-bottom: 20px;
+.main_video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  object-fit: cover;
 }

@@ -41,21 +41,21 @@ def home():
 
 # Routes for registration and login
 
-@app.route('/register', methods=['GET', 'POST'])
-def register():
-    if current_user.is_authenticated:
-        return redirect(url_for('hello'))
-
-    form = RegistrationForm()
-    if form.validate_on_submit():
-        user = User(email=form.email.data, password=form.password.data)
-        db.session.add(user)
-        db.session.commit()
-        flash(f'Account created for {form.email.data}!', 'success')
-        login_user(user)
-        return redirect(url_for('home'))   ## Change for the results page function
-
-    return render_template('register.html', title='Register', form=form)
+#   @app.route('/register', methods=['GET', 'POST'])
+#   def register():
+#       if current_user.is_authenticated:
+#           return redirect(url_for('hello'))
+#
+#       form = RegistrationForm()
+#       if form.validate_on_submit():
+#           user = User(email=form.email.data, password=form.password.data)
+#           db.session.add(user)
+#           db.session.commit()
+#           flash(f'Account created for {form.email.data}!', 'success')
+#           login_user(user)
+#           return redirect(url_for('home'))   ## Change for the results page function
+#
+#       return render_template('register.html', title='Register', form=form)
 
 
 @app.route("/login", methods=['GET', 'POST'])
@@ -72,19 +72,19 @@ def login():
             session['name'] = user.name
             session['email'] = email  # Add this line
             print("Login successful")  # Added print statement
-            return render_template('results.html')
+            return render_template('index.html')
         else:
             flash('Incorrect email / password !')
             print("Login failed")  # Added print statement
     return render_template('login.html')
 
 
-@app.route("/logout")
+@app.route("/logout", methods=['POST'])
 def logout():
     session.pop('loggedin', None)
     session.pop('id', None)
     session.pop('name', None)
-    return redirect(url_for('login'))
+    return redirect(url_for('home'))
 
 
 @app.route("/register", methods=['GET', 'POST'])
@@ -110,16 +110,18 @@ def register():
             return redirect(url_for('login'))
     return render_template('register.html')
 
+
 @app.route('/calendar_display', methods=['GET', 'POST'])
 def calendar_display():
     return render_template('calendar.html')
 
-@app.route("/results", methods=('GET', 'POST'))
+
+@app.route("/index", methods=('GET', 'POST'))
 def result():
     if 'loggedin' in session:
         name = session['name']
         brag_sheet_bullets = session.get('brag_sheet_bullets', [])
-        return render_template('results.html', name=name, brag_sheet_bullets=brag_sheet_bullets)
+        return render_template('index.html', name=name, brag_sheet_bullets=brag_sheet_bullets)
     else:
         return redirect(url_for('login'))
 
@@ -152,17 +154,21 @@ def delete_user(id):
     db.session.commit()
     return redirect(url_for('admin'))
 
+
 @app.route('/dashboard', methods=['GET', 'POST'])
 def dashboard():
     return render_template('dashboard.html')
+
 
 @app.route('/wiki', methods=['GET', 'POST'])
 def wiki():
     return render_template('wiki.html')
 
+
 @app.route('/settings', methods=['GET', 'POST'])
 def settings():
     return render_template('settings.html')
+
 
 if __name__ == '__main__':
     with app.app_context():
