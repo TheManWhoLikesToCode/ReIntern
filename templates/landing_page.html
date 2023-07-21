@@ -8,7 +8,7 @@
     <img src={{ url_for('static', filename="sample_image.png") }} class="main_image center_object">
     <h3 class="text-center"> Company Slogan </h3>
     <br>
-    <button class="btn center_object object_bottom" style="color: red;"><a href="#" class="link_no_decoration" style="color: red;"> Signup </a> </button>
+    <button class="btn center_object object_bottom" style="color: red;"><a href={{ url_for('signup') }} class="link_no_decoration" style="color: red;"> Signup </a> </button>  <!-- make link to route for href-->
     <button class="btn center_object"> <a href={{ url_for('login') }} class="link_no_decoration" style="color: black;"> Login </a> </button>
 </div>
 
