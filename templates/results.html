@@ -1,12 +1,6 @@
 {% extends 'layout_two.html' %} {% block content %}
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Dashboard</title>
-    <link rel="stylesheet" href="styles.css" />
-  </head>
   <body>
     <div class="container">
       <h1 class="title">Results</h1>
@@ -29,16 +23,21 @@
 
         <div class="dailySummary">
           <h2>Daily Summary</h2>
-          <textarea
-            id="dailySummary"
-            placeholder="Write your accomplishments and contributions here for the day here."
-          ></textarea>
-          <button class="btn" onclick="submitSummary()">Submit</button>
+          <form id="summaryForm" method="POST" action="/home">
+            <textarea
+              id="dailySummary"
+              name="dailySummary"
+              placeholder="Write your accomplishments and contributions here for the day here."
+            ></textarea>
+            <button class="btn" type="submit">Submit</button>
+          </form>
+          <div id="summaryOutput">
+            <h3>Your Daily Summary:</h3>
+            <p id="summaryResult"></p>
+          </div>
         </div>
       </div>
     </div>
-
-    <script src="script.js"></script>
   </body>
 </html>
 {% endblock content %}

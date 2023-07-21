@@ -3,8 +3,8 @@ from flask_behind_proxy import FlaskBehindProxy
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask import jsonify
-import git
-import threading
+from prompt import generate_brag_sheet
+import logging
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'your secret key'
@@ -22,6 +22,21 @@ class User(db.Model):
 @app.route('/', methods=['GET', 'POST'])
 @app.route('/home', methods=['GET', 'POST'])
 def home():
+    if request.method == 'POST':
+        logging.info("POST request received at /home route.")
+        summary = request.get_json().get('summary', '')
+        logging.info(f"Summary received: {summary}")
+        if 'loggedin' in session:
+            name = session['name']
+            logging.info(f"User {name} is logged in.")
+            brag_sheet_bullets = generate_brag_sheet(summary, name)
+            session['brag_sheet_bullets'] = brag_sheet_bullets
+            logging.info(f"Brag sheet bullets generated: {brag_sheet_bullets}")
+            return jsonify({'brag_sheet_bullets': brag_sheet_bullets})
+        else:
+            logging.info("User not logged in. Redirecting to login page.")
+            return redirect(url_for('login'))
+    logging.info("GET request received at /home route.")
     return render_template('landing_page.html')
 
 
@@ -80,7 +95,12 @@ def register():
 
 @app.route("/results", methods=('GET', 'POST'))
 def result():
-    return render_template('results.html')
+    if 'loggedin' in session:
+        name = session['name']
+        brag_sheet_bullets = session.get('brag_sheet_bullets', [])
+        return render_template('results.html', name=name, brag_sheet_bullets=brag_sheet_bullets)
+    else:
+        return redirect(url_for('login'))
 
 
 @app.route("/admin", methods=['GET', 'POST'])
@@ -90,14 +110,6 @@ def admin():
         return render_template('admin.html', users=users)
     else:
         return redirect(url_for('login'))
-
-
-@app.route("/print_users", methods=['GET'])
-def print_users():
-    users = User.query.all()
-    for user in users:
-        print(f"User ID: {user.id}, Name: {user.name}, Email: {user.email}")
-    return "Users printed in console"
 
 
 @app.route('/edit_user/<int:id>', methods=['POST'])

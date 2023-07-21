@@ -91,7 +91,6 @@ form {
   justify-content: center;
   align-items: center;
   margin: 5%;
-  height: 50vh; /* Reduced the height of the form */
 }
 
 .form-container {
@@ -143,6 +142,8 @@ form {
   border-radius: 10px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
   overflow: auto;
+  /* Add a bottom margin to create space at the bottom of the page */
+  margin-bottom: 50px;
 }
 
 .task-container {
@@ -177,3 +178,13 @@ h2 {
   margin-bottom: 10px;
 }
 
+textarea {
+  width: 100%; /* Make the textarea take up the full width of its container */
+  min-height: 100px; /* Set a minimum height for the textarea */
+  padding: 10px; /* Add some padding inside the textarea */
+  border-radius: 5px; /* Round the corners of the textarea */
+  border: 1px solid #ccc; /* Add a border around the textarea */
+  font-family: Arial, sans-serif; /* Set the font for the textarea */
+  font-size: 1em; /* Set the font size for the textarea */
+  margin-bottom: 20px;
+}
