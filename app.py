@@ -39,6 +39,24 @@ def home():
     logging.info("GET request received at /home route.")
     return render_template('landing_page.html')
 
+# Routes for registration and login
+
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    if current_user.is_authenticated:
+        return redirect(url_for('hello'))
+
+    form = RegistrationForm()
+    if form.validate_on_submit():
+        user = User(email=form.email.data, password=form.password.data)
+        db.session.add(user)
+        db.session.commit()
+        flash(f'Account created for {form.email.data}!', 'success')
+        login_user(user)
+        return redirect(url_for('home'))   ## Change for the results page function
+
+    return render_template('register.html', title='Register', form=form)
+
 
 @app.route("/login", methods=['GET', 'POST'])
 def login():
@@ -92,6 +110,9 @@ def register():
             return redirect(url_for('login'))
     return render_template('register.html')
 
+@app.route('/calendar_display', methods=['GET', 'POST'])
+def calendar_display():
+    return render_template('calendar.html')
 
 @app.route("/results", methods=('GET', 'POST'))
 def result():
@@ -131,6 +152,17 @@ def delete_user(id):
     db.session.commit()
     return redirect(url_for('admin'))
 
+@app.route('/dashboard', methods=['GET', 'POST'])
+def dashboard():
+    return render_template('dashboard.html')
+
+@app.route('/wiki', methods=['GET', 'POST'])
+def wiki():
+    return render_template('wiki.html')
+
+@app.route('/settings', methods=['GET', 'POST'])
+def settings():
+    return render_template('settings.html')
 
 if __name__ == '__main__':
     with app.app_context():

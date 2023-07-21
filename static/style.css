@@ -7,13 +7,15 @@ body {
   width: 100%;
   font-family: Arial, sans-serif;
   background-color: #f4f4f4;
-  background-image: linear-gradient(
-      rgba(229, 229, 229, 0.5),
-      rgba(229, 229, 229, 0.5)
-    ),
-    url("/static/background_image.jpeg");
+
   background-size: cover;
   background-position: center;
+}
+
+.main_video{
+  position: fixed;
+  width: 100%;
+  z-index: -1;
 }
 
 .link_no_decoration {
