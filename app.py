@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ##Author: Jaydin F.
 ##Edited by: Axel C.
 ##Date: 7/19/2023
@@ -7,9 +8,11 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_behind_proxy import FlaskBehindProxy
 from flask_login import LoginManager, UserMixin, login_user, login_required, current_user,logout_user
 from werkzeug.security import generate_password_hash, check_password_hash
+from prompt import generate_brag_sheet
 from flask import jsonify
 import git
 import threading
+import logging
 from google_calendar_api import main as google_calendar_main, revoke_tokens      ##Import Google Calendar API File 
 
 
@@ -18,6 +21,15 @@ from google_calendar_api import main as google_calendar_main, revoke_tokens     
 from forms import RegistrationForm, LoginForm   ##Register and Log in forms 
 from models import User                         ##User Model Import
 
+=======
+from flask import Flask, render_template, url_for, flash, redirect, request, session
+from flask_behind_proxy import FlaskBehindProxy
+from flask_sqlalchemy import SQLAlchemy
+from werkzeug.security import generate_password_hash, check_password_hash
+from flask import jsonify
+from prompt import generate_brag_sheet
+import logging
+>>>>>>> fc0af6c6911767d6e73df7dda423de6972c3c3e2
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'your secret key'
@@ -39,9 +51,44 @@ class User(db.Model):
 @app.route('/', methods=['GET', 'POST'])
 @app.route('/home', methods=['GET', 'POST'])
 def home():
+    if request.method == 'POST':
+        logging.info("POST request received at /home route.")
+        summary = request.get_json().get('summary', '')
+        logging.info(f"Summary received: {summary}")
+        if 'loggedin' in session:
+            name = session['name']
+            logging.info(f"User {name} is logged in.")
+            brag_sheet_bullets = generate_brag_sheet(summary, name)
+            session['brag_sheet_bullets'] = brag_sheet_bullets
+            logging.info(f"Brag sheet bullets generated: {brag_sheet_bullets}")
+            return jsonify({'brag_sheet_bullets': brag_sheet_bullets})
+        else:
+            logging.info("User not logged in. Redirecting to login page.")
+            return redirect(url_for('login'))
+    logging.info("GET request received at /home route.")
     return render_template('landing_page.html')
 
+<<<<<<< HEAD
 
+=======
+# Routes for registration and login
+
+#   @app.route('/register', methods=['GET', 'POST'])
+#   def register():
+#       if current_user.is_authenticated:
+#           return redirect(url_for('hello'))
+#
+#       form = RegistrationForm()
+#       if form.validate_on_submit():
+#           user = User(email=form.email.data, password=form.password.data)
+#           db.session.add(user)
+#           db.session.commit()
+#           flash(f'Account created for {form.email.data}!', 'success')
+#           login_user(user)
+#           return redirect(url_for('home'))   ## Change for the results page function
+#
+#       return render_template('register.html', title='Register', form=form)
+>>>>>>> fc0af6c6911767d6e73df7dda423de6972c3c3e2
 
 
 @app.route("/login", methods=['GET', 'POST'])
@@ -58,11 +105,12 @@ def login():
             session['name'] = user.name
             session['email'] = email  # Add this line
             print("Login successful")  # Added print statement
-            return render_template('results.html')
+            return render_template('index.html')
         else:
             flash('Incorrect email / password !')
             print("Login failed")  # Added print statement
     return render_template('login.html')
+<<<<<<< HEAD
 
     form = LoginForm()
     if form.validate_on_submit():
@@ -75,15 +123,21 @@ def login():
             flash('Invalid email or password.', 'danger')
 
 @app.route("/logout")
+=======
+
+
+@app.route("/logout", methods=['POST'])
+>>>>>>> fc0af6c6911767d6e73df7dda423de6972c3c3e2
 def logout():
     session.pop('loggedin', None)
     session.pop('id', None)
     session.pop('name', None)
-    return redirect(url_for('login'))
+    return redirect(url_for('home'))
 
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
+<<<<<<< HEAD
     if current_user.is_authenticated:
         return redirect(url_for('hello'))
 
@@ -97,6 +151,29 @@ def register():
         return redirect(url_for('home'))   ## Change for the results page function
 
     return render_template('register.html', title='Register', form=form)
+=======
+    if request.method == 'POST':
+        name = request.form.get('name')
+        password = generate_password_hash(
+            request.form.get('password'), method='sha256')
+        email = request.form.get('email')
+        # Added print statement
+        print(f"Attempting to register with email: {email}, name: {name}")
+        user = User.query.filter_by(email=email).first()
+        if user:
+            flash('Email already exists !')
+            # Added print statement
+            print("Registration failed, email already exists")
+        else:
+            new_user = User(name=name, password=password, email=email)
+            db.session.add(new_user)
+            db.session.commit()
+            flash('You have successfully registered !')
+            print("Registration successful")  # Added print statement
+            return redirect(url_for('login'))
+    return render_template('register.html')
+
+>>>>>>> fc0af6c6911767d6e73df7dda423de6972c3c3e2
 
 @app.route('/calendar_display', methods=['GET', 'POST'])
 def calendar_display():
@@ -104,21 +181,16 @@ def calendar_display():
     print(events)
     return render_template('calendar.html', events=events)
 
-@app.route("/results", methods=('GET', 'POST'))
+
+@app.route("/index", methods=('GET', 'POST'))
 def result():
-    return render_template('results.html', user='Joe')
+    if 'loggedin' in session:
+        name = session['name']
+        brag_sheet_bullets = session.get('brag_sheet_bullets', [])
+        return render_template('index.html', name=name, brag_sheet_bullets=brag_sheet_bullets)
+    else:
+        return redirect(url_for('login'))
 
-@app.route('/dashboard', methods=['GET', 'POST'])
-def dashboard():
-    return render_template('dashboard.html')
-
-@app.route('/wiki', methods=['GET', 'POST'])
-def wiki():
-    return render_template('wiki.html')
-
-@app.route('/settings', methods=['GET', 'POST'])
-def settings():
-    return render_template('settings.html')
 
 @app.route("/admin", methods=['GET', 'POST'])
 def admin():
@@ -127,14 +199,6 @@ def admin():
         return render_template('admin.html', users=users)
     else:
         return redirect(url_for('login'))
-
-
-@app.route("/print_users", methods=['GET'])
-def print_users():
-    users = User.query.all()
-    for user in users:
-        print(f"User ID: {user.id}, Name: {user.name}, Email: {user.email}")
-    return "Users printed in console"
 
 
 @app.route('/edit_user/<int:id>', methods=['POST'])
@@ -155,6 +219,21 @@ def delete_user(id):
     db.session.delete(user)
     db.session.commit()
     return redirect(url_for('admin'))
+
+
+@app.route('/dashboard', methods=['GET', 'POST'])
+def dashboard():
+    return render_template('dashboard.html')
+
+
+@app.route('/wiki', methods=['GET', 'POST'])
+def wiki():
+    return render_template('wiki.html')
+
+
+@app.route('/settings', methods=['GET', 'POST'])
+def settings():
+    return render_template('settings.html')
 
 
 if __name__ == '__main__':
