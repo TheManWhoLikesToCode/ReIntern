@@ -10,6 +10,20 @@
     <br>
     <button class="btn center_object object_bottom" style="color: red;"><a href={{ url_for('signup') }} class="link_no_decoration" style="color: red;"> Signup </a> </button>  <!-- make link to route for href-->
     <button class="btn center_object"> <a href={{ url_for('login') }} class="link_no_decoration" style="color: black;"> Login </a> </button>
+    <!-- <div class="background-image"></div> -->
+    <div class="hero-text">
+        <h1 class="text-center"> Welcome to ReIntern </h1>
+        <h3 class="text-center"> Company Slogan </h3>
+    </div>
+    <img src={{ url_for('static', filename="sample_image.png") }} class="main_image center_object" alt="Main Image">
+    <div class="button-group">
+        <a href={{ url_for('register') }} class="link_no_decoration">
+            <button class="btn center_object object_bottom"> Signup </button>
+        </a>
+        <a href={{ url_for('login') }} class="link_no_decoration">
+            <button class="btn center_object"> Login </button>
+        </a>
+    </div>
 </div>
 
 {% endblock content %}
