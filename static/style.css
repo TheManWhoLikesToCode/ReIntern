@@ -12,7 +12,7 @@ body {
   background-position: center;
 }
 
-.main_video{
+.main_video {
   position: fixed;
   width: 100%;
   z-index: -1;
@@ -93,7 +93,6 @@ form {
   justify-content: center;
   align-items: center;
   margin: 5%;
-  height: 50vh; /* Reduced the height of the form */
 }
 
 .form-container {
@@ -126,4 +125,65 @@ form {
   padding: 10px;
   border-radius: 5px;
   border: 1px solid #ccc;
+}
+
+.results_page {
+  margin: 5%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.container {
+  max-width: 800px;
+  margin: 20px auto; /* This will create a space at the top */
+  padding: 20px;
+  background-color: #e5e5e5;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  overflow: auto;
+  /* Add a bottom margin to create space at the bottom of the page */
+  margin-bottom: 50px;
+}
+
+.task-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px; /* This will create a space between each task box */
+}
+
+.tasks,
+.email,
+.dailySummary {
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+h1,
+h2 {
+  color: #16191c;
+  padding-top: 30px;
+}
+
+.tasks,
+.email,
+.dailySummary {
+  margin-bottom: 20px;
+}
+
+#newTask,
+#taskDate {
+  margin-bottom: 10px;
+}
+
+.main_video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  object-fit: cover;
 }

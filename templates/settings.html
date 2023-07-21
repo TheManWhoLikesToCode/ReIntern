@@ -1,8 +1,10 @@
-{% extends 'layout_two.html' %}
-{% block content %}
+{% extends 'layout_two.html' %} {% block content %}
 
 <div class="settings_page">
-    <h1> Settings </h1>
+  <h1>Settings</h1>
+  <form action="{{ url_for('logout') }}" method="post">
+    <button type="submit" class="btn">Logout</button>
+  </form>
 </div>
 
 {% endblock content %}

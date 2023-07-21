@@ -1,30 +1,40 @@
-{% extends 'layout_two.html' %} 
-{% block content %} 
+{% extends 'layout_two.html' %} {% block content %}
 
 <div class="dashboard_page">
-    <div class="box">
-        <h1 class="title">Results</h1>
-        <div class="task-container">
-            <div class="tasks">
-                <h2>Tasks</h2>
-                <ul id="taskList">
-                    <!-- Tasks added here w/ JS -->
-                </ul>
-                <input type="text" id="newTask" placeholder="Enter a new task..." />
-                <input type="date" id="taskDate" />
-                <button class="btn" onclick="addTask()">Add Task</button>
-            </div>
-            <div class="email">
-                <h2>Weekly Email to Manager/Mentor</h2>
-                <p id="emailContent"></p>
-                <button class="btn" onclick="generateEmail()">Generate Email</button>
-            </div>
-            <div class="dailySummary">
-                <h2>Daily Summary</h2>
-                <textarea id="dailySummary" placeholder="Write your accomplishments and contributions here for the day here."></textarea>
-                <button class="btn" onclick="submitSummary()">Submit</button>
-            </div>
-        </div>
-    </div> 
+  <div class="box">
+    <h1 class="title">Results</h1>
+    <div class="task-container">
+
+      <div class="tasks">
+        <h2>Tasks</h2>
+        <ul id="taskList">
+          <!-- Tasks added here w/ JS -->
+        </ul>
+        <input type="text" id="newTask" placeholder="Enter a new task..." />
+        <input type="date" id="taskDate" />
+        <button class="btn" onclick="addTask()">Add Task</button>
+      </div>
+
+      <div class="email">
+        <h2>Weekly Email to Manager/Mentor</h2>
+        <p id="emailContent"></p>
+        <button class="btn" onclick="generateEmail()">Generate Email</button>
+      </div>
+
+      <div class="dailySummary">
+        <h2>Daily Summary</h2>
+        <textarea
+          id="dailySummary"
+          placeholder="Write your accomplishments and contributions here for the day here."
+        ></textarea>
+        <button class="btn" onclick="submitSummary()">Submit</button>
+      </div>
+      <div id="summaryOutput">
+        <h3>Your Daily Summary:</h3>
+        <p id="summaryResult"></p>
+      </div>
+
+    </div>
+  </div>
 </div>
 {% endblock content %}

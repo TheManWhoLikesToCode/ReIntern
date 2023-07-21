@@ -50,20 +50,21 @@ def generate_brag_sheet(summary, name):
 
 
 # Example usage:
-name = "Jaydin"
-
-summary = """
-Monday: I started the week by attending a project kickoff meeting for a new client. I took detailed notes and was able to ask insightful questions about the client's needs.
-
-Tuesday: I spent the day working on a data analysis task for the new project. I used Python and pandas to clean the data and generate preliminary insights.
-
-Wednesday: I presented my initial findings to the project team. My clear communication and thorough analysis were appreciated by all team members.
-
-Thursday: I worked on improving the project's codebase. I refactored several key functions to improve readability and performance.
-
-Friday: I ended the week by documenting my work on the project. I created a detailed README file and commented my code to ensure that future team members can understand my work.
-"""
-
-brag_sheet_bullets = generate_brag_sheet(summary, name)
-
-print(brag_sheet_bullets)
+# name = "Jaydin"
+# 
+# summary = """
+# Monday: I started the week by attending a project kickoff meeting for a new client. I took detailed notes and was able to ask insightful questions about the client's needs.
+# 
+# Tuesday: I spent the day working on a data analysis task for the new project. I used Python and pandas to clean the data and generate preliminary insights.
+# 
+# Wednesday: I presented my initial findings to the project team. My clear communication and thorough analysis were appreciated by all team members.
+# 
+# Thursday: I worked on improving the project's codebase. I refactored several key functions to improve readability and performance.
+# 
+# Friday: I ended the week by documenting my work on the project. I created a detailed README file and commented my code to ensure that future team members can understand my work.
+# """
+# 
+# brag_sheet_bullets = generate_brag_sheet(summary, name)
+# 
+# print(brag_sheet_bullets)
+print("Prompt.py ran")
