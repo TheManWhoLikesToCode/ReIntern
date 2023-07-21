@@ -7,13 +7,15 @@ body {
   width: 100%;
   font-family: Arial, sans-serif;
   background-color: #f4f4f4;
-  background-image: linear-gradient(
-      rgba(229, 229, 229, 0.5),
-      rgba(229, 229, 229, 0.5)
-    ),
-    url("/static/background_image.jpeg");
+
   background-size: cover;
   background-position: center;
+}
+
+.main_video{
+  position: fixed;
+  width: 100%;
+  z-index: -1;
 }
 
 .link_no_decoration {
@@ -124,54 +126,4 @@ form {
   padding: 10px;
   border-radius: 5px;
   border: 1px solid #ccc;
-}
-
-/* Results Page */
-
-.results_page {
-  margin: 5%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.container {
-  max-width: 800px;
-  margin: 20px auto; /* This will create a space at the top */
-  padding: 20px;
-  background-color: #e5e5e5;
-  border-radius: 10px;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-}
-
-.task-container {
-  display: flex;
-  flex-direction: column;
-  gap: 20px; /* This will create a space between each task box */
-}
-
-.tasks,
-.email,
-.dailySummary {
-  padding: 20px;
-  background-color: #fff;
-  border-radius: 10px;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-}
-
-h1,
-h2 {
-  color: #16191c;
-  padding-top: 30px;
-}
-
-.tasks,
-.email,
-.dailySummary {
-  margin-bottom: 20px;
-}
-
-#newTask,
-#taskDate {
-  margin-bottom: 10px;
 }

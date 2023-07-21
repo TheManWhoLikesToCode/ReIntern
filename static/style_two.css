@@ -1,0 +1,126 @@
+/* layout_two.html */
+body {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  width: 100%;
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+
+  background-size: cover;
+  background-position: center;
+}
+
+.link_no_decoration{
+    text-decoration: none;
+}
+
+.light_text{
+    color: white;
+}
+
+.btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  background-color: #16191c;
+  color: white;
+  font-size: 1em;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+/* Results Page */
+
+.results_page{
+    margin: 2%;
+}
+
+.right_container{
+    border-left: solid;
+    border-color: black;
+    border-width: 1px;
+}
+
+.center_object{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
+@media screen and (max-width: 1000px){
+
+.right_container{
+    border-left: none;
+}
+
+}
+
+/* Dashboard Page */
+
+.dashboard_page {
+  margin: 5%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.box {
+  max-width: 800px;
+  margin: 20px auto; /* This will create a space at the top */
+  padding: 20px;
+  background-color: #e5e5e5;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.task-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px; /* This will create a space between each task box */
+}
+
+.tasks,
+.email,
+.dailySummary {
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+h1,
+h2 {
+  color: #16191c;
+  padding-top: 30px;
+}
+
+.tasks,
+.email,
+.dailySummary {
+  margin-bottom: 20px;
+}
+
+#newTask,
+#taskDate {
+  margin-bottom: 10px;
+}
+
+/* Calendar Page */
+
+.calendar_page{
+    margin: 2%;
+}
+
+/* Wiki Page */
+
+.wiki_page{
+    margin: 2%;
+}
+
+/* Settings Page */
+
+.settings_page{
+    margin: 2%;
+}

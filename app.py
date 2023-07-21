@@ -82,9 +82,25 @@ def calendar():
         flash(f'Error occurred: {str(e)}', 'danger')
     return redirect(url_for('home'))  # Redirect back to the homepage after fetching and displaying events
 
+@app.route('/calendar_display', methods=['GET', 'POST'])
+def calendar_display():
+    return render_template('calendar.html')
+
 @app.route("/results", methods=('GET', 'POST'))
 def result():
-    return render_template('results.html')
+    return render_template('results.html', user='Joe')
+
+@app.route('/dashboard', methods=['GET', 'POST'])
+def dashboard():
+    return render_template('dashboard.html')
+
+@app.route('/wiki', methods=['GET', 'POST'])
+def wiki():
+    return render_template('wiki.html')
+
+@app.route('/settings', methods=['GET', 'POST'])
+def settings():
+    return render_template('settings.html')
 
 if __name__ == '__main__':
     app.run(debug=True, host="0.0.0.0")
