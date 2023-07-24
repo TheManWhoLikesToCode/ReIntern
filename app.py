@@ -3,7 +3,7 @@ from flask_behind_proxy import FlaskBehindProxy
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask import jsonify
-from prompt import generate_brag_sheet
+from prompt import generate_brag_sheet, generate_weekly_email
 import logging
 
 app = Flask(__name__)
@@ -114,6 +114,18 @@ def register():
 @app.route('/calendar_display', methods=['GET', 'POST'])
 def calendar_display():
     return render_template('calendar.html')
+
+
+@app.route('/generate_email', methods=['POST'])
+def generate_email():
+    if 'loggedin' in session:
+        name = session['name']
+        summary = request.get_json().get('summary', '')
+        email_content = generate_weekly_email(summary, name)
+        session['email_content'] = email_content
+        return jsonify({'email_content': email_content})
+    else:
+        return redirect(url_for('login'))
 
 
 @app.route("/index", methods=('GET', 'POST'))

@@ -1,12 +1,12 @@
 /* layout_two.html */
 body {
-  margin: 0;
+  margin: auto;
+  margin-bottom: 10%;
   padding: 0;
   height: 100vh;
   width: 100%;
   font-family: Arial, sans-serif;
   background-color: #f4f4f4;
-
   background-size: cover;
   background-position: center;
 }
@@ -59,14 +59,15 @@ body {
 
 .dashboard_page {
   margin: 5%;
+  margin-bottom: 10%; /* Increase this value to add more space at the bottom */
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
 .box {
-  max-width: 800px;
-  margin: 20px auto; /* This will create a space at the top */
+  min-width: 80vw;
+  margin: auto; /* This will create a space at the top */
   padding: 20px;
   background-color: #e5e5e5;
   border-radius: 10px;
@@ -86,6 +87,18 @@ body {
   background-color: #fff;
   border-radius: 10px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  background-color: #16191c;
+  color: white;
+  font-size: 1em;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 10px; /* New */
 }
 
 h1,
@@ -133,5 +146,3 @@ textarea {
   font-size: 1em; /* Set the font size for the textarea */
   margin-bottom: 20px;
 }
-
-
