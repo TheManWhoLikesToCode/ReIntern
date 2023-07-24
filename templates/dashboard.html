@@ -4,12 +4,33 @@
   <div class="box">
     <h1 class="title">Results</h1>
     <div class="task-container">
-
       <div class="tasks">
         <h2>Tasks</h2>
-        <ul id="taskList">
-          <!-- Tasks added here w/ JS -->
-        </ul>
+        <table id="taskTable">
+          <thead>
+            <tr>
+              <th></th>
+              <th>Date</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for task in tasks %}
+            <tr>
+              <td>{{ task.task }}</td>
+              <td>{{ task.date.strftime('%Y-%m-%d') }}</td>
+              <td>
+                <button
+                  class="btn"
+                  onclick="deleteTask({{ task.id | tojson | safe }})"
+                >
+                  Delete
+                </button>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
         <input type="text" id="newTask" placeholder="Enter a new task..." />
         <input type="date" id="taskDate" />
         <button class="btn" onclick="addTask()">Add Task</button>
@@ -18,26 +39,21 @@
       <div class="email">
         <h2>Weekly Email to Manager/Mentor</h2>
         <p id="emailContent"></p>
-        <button class="btn" onclick="generate_weekly_email()">Generate Email</button>
-      </div>
-      <div id="emailOutput">
-        <h3>Your Weekly Email:</h3>
-        <p id="emailResult"></p>
+        <button class="btn" onclick="generateEmail()">Generate Email</button>
+        <h3 style="margin-top: 20px">Your Weekly Email:</h3>
+        <div id="emailResult" class="resultBox"></div>
       </div>
 
-      <div class="dailySummary">
-        <h2>Daily Summary</h2>
-        <textarea
-          id="dailySummary"
-          placeholder="Write your accomplishments and contributions here for the day here."
-        ></textarea>
-        <button class="btn" onclick="submitSummary()">Submit</button>
+      <div class="generateSummary">
+        <h2>Generate Summary</h2>
+        <input type="date" id="startDate" />
+        <input type="date" id="endDate" />
+        <button class="btn" onclick="generateSummary()">
+          Generate Summary
+        </button>
+        <h3 style="margin-top: 20px">Your Summary:</h3>
+        <div id="summaryResult" class="resultBox"></div>
       </div>
-      <div id="summaryOutput">
-        <h3>Your Daily Summary:</h3>
-        <p id="summaryResult"></p>
-      </div>
-
     </div>
   </div>
 </div>
