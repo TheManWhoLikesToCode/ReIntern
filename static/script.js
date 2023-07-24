@@ -1,65 +1,57 @@
-document.addEventListener('DOMContentLoaded', function () {
-  var calendarEl = document.getElementById('calendar');
-
-  // Initialize FullCalendar
-  var calendar = new FullCalendar.Calendar(calendarEl, {
-    plugins: ['dayGrid', 'interaction'], // Required plugins
-    header: {
-      left: 'prev,next today', // Navigation buttons
-      center: 'title', // Display the current month/year as the title
-      right: 'dayGridMonth,dayGridWeek,dayGridDay', // Display different views (month, week, day)
-    },
-    events: [
-    ],
-    timeZone: 'local', // Set the time zone (change to your specific time zone)
-  });
-
-  // Render the calendar
-  calendar.render();
-
-  // Add event listener to the summaryForm submit button
-  document.getElementById('summaryForm').addEventListener('submit', function (event) {
-    event.preventDefault();
-    submitSummary();
-  });
-});
-
-function submitSummary() {
-  var summary = document.getElementById('dailySummary').value;
-
-  // Input validation
-  if (!summary) {
-    alert('Please enter a summary.');
-    return;
-  }
-
-  // Convert the summary to a JSON string
-  var summaryJson = JSON.stringify({
-    summary: summary,
-  });
-
-  console.log('Sending JSON: ', summaryJson);
-
-  fetch('/home', {
-    method: 'POST',
+function generateEmail() {
+  const summary = document.getElementById("emailContent").innerText;
+  fetch("/generate_email", {
+    method: "POST",
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     },
-    body: summaryJson,
+    body: JSON.stringify({ summary: summary }),
   })
-    .then((response) => {
-      // Log the response
-      console.log('Response received: ', response);
-
-      // Read the response as JSON
-      return response.json();
-    })
+    .then((response) => response.json())
     .then((data) => {
-      // Log the response data
-      console.log('Response data: ', data);
+      console.log(data);
+      document.getElementById("emailResult").innerText = data.email_content;
+    });
+}
 
-      // Update the summaryResult paragraph with the response data
-      document.getElementById('summaryResult').innerText = data.brag_sheet_bullets;
-    })
-    .catch((error) => console.error(error));
+function generateSummary() {
+  const startDate = document.getElementById("startDate").value;
+  const endDate = document.getElementById("endDate").value;
+  fetch("/generateSummary", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+    body: `start_date=${startDate}&end_date=${endDate}`,
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      console.log(data);
+      document.getElementById("summaryResult").innerText = data.summary_result;
+    });
+}
+
+function addTask() {
+  const task = document.getElementById("newTask").value;
+  const date = document.getElementById("taskDate").value;
+  fetch("/addTask", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+    body: `task=${task}&date=${date}`,
+  })
+    .then((response) => response.json())
+    .then((data) => console.log(data));
+}
+
+function deleteTask(taskId) {
+  fetch(`/deleteTask/${taskId}`, {
+    method: "POST",
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      console.log(data);
+      // You can add code here to update the UI based on the server's response.
+    });
 }

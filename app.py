@@ -1,17 +1,30 @@
+<<<<<<< HEAD
 ##Author: Jaydin F.
 ##Edited by: Axel C.
 ##Date: 7/19/2023
 
 from flask import Flask, render_template, redirect, url_for, flash, request, session
+=======
+from flask import Flask, render_template, url_for, flash, redirect, request, session
+from flask_behind_proxy import FlaskBehindProxy
+from datetime import datetime
+>>>>>>> 6df3172b6c1488fbb90734f3e6156e6df3726532
 from flask_sqlalchemy import SQLAlchemy
 from flask_behind_proxy import FlaskBehindProxy
 from flask_login import LoginManager, UserMixin, login_user, login_required, current_user,logout_user
 from werkzeug.security import generate_password_hash, check_password_hash
+<<<<<<< HEAD
 from prompt import generate_brag_sheet
 from flask import jsonify
 import git
 import threading
+=======
+from flask import jsonify
+from prompt import generate_brag_sheet, generate_weekly_email
+>>>>>>> 6df3172b6c1488fbb90734f3e6156e6df3726532
 import logging
+from datetime import datetime, timedelta
+
 
 
 ##Extra python files with their respective 
@@ -37,17 +50,35 @@ class User(db.Model):
     email = db.Column(db.String(100), nullable=False, unique=True)
 
 
+class Task(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    task = db.Column(db.String(255), nullable=False)
+    date = db.Column(db.Date, nullable=False)
+    user = db.relationship('User', backref=db.backref('tasks', lazy=True))
+
+
 @app.route('/', methods=['GET', 'POST'])
 @app.route('/home', methods=['GET', 'POST'])
 def home():
     if request.method == 'POST':
         logging.info("POST request received at /home route.")
-        summary = request.get_json().get('summary', '')
-        logging.info(f"Summary received: {summary}")
+        start_date_str = request.form.get('start_date')
+        end_date_str = request.form.get('end_date')
+        if not start_date_str or not end_date_str:
+            return jsonify({'message': 'Please provide a start and end date for the summary'}), 400
+        start_date = datetime.strptime(start_date_str, '%Y-%m-%d').date()
+        end_date = datetime.strptime(end_date_str, '%Y-%m-%d').date()
         if 'loggedin' in session:
+            user_id = session['id']
             name = session['name']
             logging.info(f"User {name} is logged in.")
-            brag_sheet_bullets = generate_brag_sheet(summary, name)
+            tasks = Task.query.filter(
+                Task.user_id == user_id, Task.date.between(start_date, end_date)).all()
+            task_text = ' '.join([task.task for task in tasks])
+            # Print the tasks being sent to the prompt
+            print(f"Sending the following tasks to the prompt: {task_text}")
+            brag_sheet_bullets = generate_brag_sheet(task_text, name)
             session['brag_sheet_bullets'] = brag_sheet_bullets
             logging.info(f"Brag sheet bullets generated: {brag_sheet_bullets}")
             return jsonify({'brag_sheet_bullets': brag_sheet_bullets})
@@ -56,24 +87,6 @@ def home():
             return redirect(url_for('login'))
     logging.info("GET request received at /home route.")
     return render_template('landing_page.html')
-
-# Routes for registration and login
-
-#   @app.route('/register', methods=['GET', 'POST'])
-#   def register():
-#       if current_user.is_authenticated:
-#           return redirect(url_for('hello'))
-#
-#       form = RegistrationForm()
-#       if form.validate_on_submit():
-#           user = User(email=form.email.data, password=form.password.data)
-#           db.session.add(user)
-#           db.session.commit()
-#           flash(f'Account created for {form.email.data}!', 'success')
-#           login_user(user)
-#           return redirect(url_for('home'))   ## Change for the results page function
-#
-#       return render_template('register.html', title='Register', form=form)
 
 
 @app.route("/login", methods=['GET', 'POST'])
@@ -134,12 +147,66 @@ def calendar_display():
     return render_template('calendar.html')
 
 
+@app.route('/generate_email', methods=['POST'])
+def generate_email():
+    if 'loggedin' in session:
+        # Get the current week's start and end dates
+        current_week_start = datetime.now().date(
+        ) - timedelta(days=datetime.now().weekday())
+        current_week_end = current_week_start + timedelta(days=6)
+
+        # Query the database for tasks in the current week for the logged in user
+        tasks = Task.query.filter(Task.user_id == session['id'], Task.date.between(
+            current_week_start, current_week_end)).all()
+
+        # Now you have the tasks for the current week for the logged in user
+        print(f"Current week tasks: {tasks}")
+
+        # Convert tasks to a list of dictionaries to match the format expected by generate_weekly_email
+        tasks_list = [{'task': task.task, 'date': task.date} for task in tasks]
+
+        # Generate the email content based on the tasks
+        email_content = generate_weekly_email(
+            tasks_list, session['name'])
+
+        # Return the email content
+        return jsonify({'email_content': email_content})
+
+    else:
+        return jsonify({'error': 'User not logged in'})
+
+
+@app.route("/generateSummary", methods=['POST'])
+def generateSummary():
+    if 'loggedin' in session:
+        start_date_str = request.form.get('start_date')
+        end_date_str = request.form.get('end_date')
+        if not start_date_str or not end_date_str:
+            return jsonify({'message': 'Please provide a start and end date for the summary'}), 400
+        start_date = datetime.strptime(start_date_str, '%Y-%m-%d').date()
+        end_date = datetime.strptime(end_date_str, '%Y-%m-%d').date()
+        user_id = session['id']
+        tasks = Task.query.filter(
+            Task.user_id == user_id, Task.date.between(start_date, end_date)).all()
+        task_text = ' '.join([task.task for task in tasks])
+        print(f"Sending the following tasks to the prompt: {task_text}")
+        summary_result = generate_brag_sheet(task_text, session['name'])
+        return jsonify({'summary_result': summary_result})
+    else:
+        return redirect(url_for('login'))
+
+
 @app.route("/index", methods=('GET', 'POST'))
 def result():
     if 'loggedin' in session:
         name = session['name']
-        brag_sheet_bullets = session.get('brag_sheet_bullets', [])
-        return render_template('index.html', name=name, brag_sheet_bullets=brag_sheet_bullets)
+        user_id = session['id']
+
+        # Retrieve tasks from the database for the logged-in user
+        tasks = Task.query.filter_by(user_id=user_id).all()
+
+        # Pass the tasks to the template
+        return render_template('index.html', name=name, tasks=tasks)
     else:
         return redirect(url_for('login'))
 
@@ -173,14 +240,52 @@ def delete_user(id):
     return redirect(url_for('admin'))
 
 
-@app.route('/dashboard', methods=['GET', 'POST'])
-def dashboard():
-    return render_template('dashboard.html')
+@app.route("/addTask", methods=['POST'])
+def addTask():
+    if 'loggedin' in session:
+        task = request.form.get('task')
+        date_str = request.form.get('date')
+        if not task:
+            return jsonify({'message': 'Please provide a task'}), 400
+        if not date_str:
+            return jsonify({'message': 'Please provide a due date for the task'}), 400
+        date = datetime.strptime(date_str, '%Y-%m-%d').date()
+        user_id = session['id']
+        new_task = Task(task=task, date=date, user_id=user_id)
+        db.session.add(new_task)
+        db.session.commit()
+        return jsonify({'message': 'Task added successfully'})
+    else:
+        return redirect(url_for('login'))
+
+
+@app.route('/deleteTask/<int:task_id>', methods=['POST'])
+def deleteTask(task_id):
+    if 'loggedin' in session:
+        task = Task.query.get(task_id)
+        if task and task.user_id == session['id']:
+            db.session.delete(task)
+            db.session.commit()
+            return jsonify({'message': 'Task deleted successfully'})
+        else:
+            return jsonify({'message': 'Task not found'}), 404
+    else:
+        return redirect(url_for('login'))
 
 
 @app.route('/wiki', methods=['GET', 'POST'])
 def wiki():
     return render_template('wiki.html')
+
+
+@app.route('/dashboard', methods=['GET', 'POST'])
+def dashboard():
+    if 'loggedin' in session:
+        user_id = session['id']
+        tasks = Task.query.filter_by(user_id=user_id).all()
+        return render_template('dashboard.html', tasks=tasks)
+    else:
+        return redirect(url_for('login'))
 
 
 @app.route('/settings', methods=['GET', 'POST'])
