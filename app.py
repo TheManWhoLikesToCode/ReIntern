@@ -134,7 +134,6 @@ def calendar_display():
     return render_template('calendar.html')
 
 
-
 @app.route("/index", methods=('GET', 'POST'))
 def result():
     if 'loggedin' in session:
