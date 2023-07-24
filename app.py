@@ -14,7 +14,6 @@ import threading
 import logging
 from datetime import datetime, timedelta
 from forms import RegistrationForm, LoginForm
-from models import User, Event
 
 
 app = Flask(__name__)
@@ -22,6 +21,8 @@ app.config['SECRET_KEY'] = 'your secret key'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
+
+
 login_manager = LoginManager(app)
 login_manager.login_view = 'login'  # Specify the login view route name
 @login_manager.user_loader
@@ -34,6 +35,12 @@ class User(db.Model):
     password = db.Column(db.String(255), nullable=False)
     email = db.Column(db.String(100), nullable=False, unique=True)
 
+class Event(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(100), nullable=False)
+    start_date = db.Column(db.DateTime, nullable=False)
+    end_date = db.Column(db.DateTime, nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False) 
 
 class Task(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -133,14 +140,21 @@ def calendar_display():
 
 @app.route('/add_event', methods=['POST'])
 def add_event():
-    # Extract event data from the request
-    title = request.form.get('title')
-    start_date = request.form.get('start_date')
-    end_date = request.form.get('end_date')
+    # Get the event data from the JSON request
+    event_data = request.get_json()
 
     # Check if the user is logged in
     if 'loggedin' in session:
         user_id = session['id']
+
+        # Extract the event data
+        title = event_data.get('title')
+        start_date = event_data.get('start')
+        end_date = event_data.get('end')
+
+        # Check if the required fields are provided
+        if not title or not start_date or not end_date:
+            return jsonify({'message': 'Event data is incomplete'}), 400
 
         # Create a new event entry in the database associated with the user
         new_event = Event(title=title, start_date=start_date, end_date=end_date, user_id=user_id)
@@ -149,7 +163,7 @@ def add_event():
 
         return jsonify({'message': 'Event added successfully'})
     else:
-        return jsonify({'error': 'User not logged in'})
+        return jsonify({'error': 'User not logged in'}), 401
 
 
 
