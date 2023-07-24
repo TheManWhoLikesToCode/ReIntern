@@ -188,9 +188,21 @@ input[type="date"] {
   margin: 2%;
 }
 
+.main_list{
+  padding: 3%;
+  border-style: solid;
+  border-color: black;
+  border-width: 1px;;
+}
+
+.center-text{
+  text-align: center;
+}
+
 /* Settings Page */
 .settings_page {
   margin: 2%;
+  text-align: center;
 }
 
 /* Media Queries */
