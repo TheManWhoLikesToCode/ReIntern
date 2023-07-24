@@ -1,53 +1,52 @@
 {% extends 'layout_two.html' %} {% block content %}
-<!DOCTYPE html>
-<html lang="en">
-  <body>
-    <div class="container">
-      <h1 class="title">Home</h1>
-      <div class="task-container">
-        <div class="tasks">
-          <h2>Tasks</h2>
-          <ul id="taskList">
-            <!-- Tasks added here w/ JS -->
-          </ul>
-          <input type="text" id="newTask" placeholder="Enter a new task..." />
-          <input type="date" id="taskDate" />
-          <button class="btn" onclick="addTask()">Add Task</button>
-        </div>
 
-<div class="index_page">
-    <h1> Welcome Back {{ user }}! </h1> <!-- Change 'user' in app.py file -->
-    <br>
-    <br>
-    <h3 class="text-center"> What have you done today </h3>
-    
-    <div class="box">
-        <div class="row">
-            <div class="col-lg-6">
-                <h5 class="text-center"> Meetings </h5>
-                <ul style="list-style: none;">
-                    <li> Item 1 </li>
-                    <li> Item 1 </li>
-                    <li> Item 1 </li>
-                </ul>
-            </div>
+<div class="results_page">
+  <h1>Welcome Back {{ name | capitalize }}!</h1>
+  <!-- Change 'user' in app.py file -->
 
-        <div class="dailySummary">
-          <h2>Daily Summary</h2>
-          <form id="summaryForm" method="POST" action="/home">
-            <textarea
-              id="dailySummary"
-              name="dailySummary"
-              placeholder="Write your accomplishments and contributions here for the day here."
-            ></textarea>
-            <button class="btn" type="submit">Submit</button>
-          </form>
-          <div id="summaryOutput">
-            <h3>Your Daily Summary:</h3>
-            <p id="summaryResult"></p>
-          </div>
-        </div>
+  <div class="box">
+    <h1 class="text-center">To Do List</h1>
+    <div class="tasks">
+      <ul style="list-style: none">
+        <li class="countdown">
+          <strong>Countdown to Weekly Email:</strong> {{ days_until_friday }}
+          days left
+        </li>
+      </ul>
     </div>
-  </body>
-</html>
+
+    <div class="task-container">
+      <h1 class="text-center">Completed</h1>
+      <div class="tasks">
+        <table id="taskTable">
+          <thead>
+            <tr>
+              <th>Task</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for task in tasks %}
+            <tr>
+              <td>{{ task.task }}</td>
+              <td>{{ task.date.strftime('%Y-%m-%d') }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="center_object">
+    <a
+      href="{{ url_for('dashboard') }}"
+      class="btn link_no_decoration"
+      style="color: white"
+    >
+      Add items
+    </a>
+  </div>
+</div>
+
 {% endblock content %}
