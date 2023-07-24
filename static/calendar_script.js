@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
   var calendarEl = document.getElementById('calendar');
   var calendar = new FullCalendar.Calendar(calendarEl, {
     initialView: 'dayGridMonth',
@@ -19,42 +19,52 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // Fetch events associated with the logged-in user
   fetch('/get_events')
-    .then(response => response.json())  // Parse the JSON response
+    .then(response => response.json()) // Parse the JSON response
     .then(data => {
       // The data variable should now be an array of event objects
       const events = data;
 
       // Add the fetched events to the calendar
       calendar.addEventSource(events);
-      calendar.render(); // Render the calendar after adding the events
     })
     .catch(error => console.error('Error fetching events:', error));
+
+  calendar.render();
 
   // Get the "Add Event" button element
   var addEventButton = document.getElementById('addEventButton');
   addEventButton.addEventListener('click', function () {
     // Get the values from the input fields
     var title = document.getElementById('eventTitle').value;
-    var date = document.getElementById('eventDate').value;
-    var time = document.getElementById('eventTime').value;
+    var startDate = document.getElementById('eventDate').value;
+    var startTime = document.getElementById('eventTime').value;
+    var endDate = document.getElementById('eventEndDate').value;
+    var endTime = document.getElementById('eventEndTime').value;
 
     // Check if the user entered valid title, date, and time
-    if (title && date && time) {
-      // Combine date and time into a single string in ISO 8601 format (e.g., "2023-07-25T14:30:00")
-      var dateTime = date + 'T' + time;
+    if (title && startDate && startTime && endDate && endTime) {
+      // Combine start date and time into a single string in ISO format
+      var startDateTime = startDate + 'T' + startTime + ':00';
+
+      // Combine end date and time into a single string in ISO format
+      var endDateTime = endDate + 'T' + endTime + ':00';
 
       var event = {
         title: title,
-        start: dateTime,
+        start: startDateTime,
+        end: endDateTime
       };
 
       // Add the event to the calendar and refresh
       calendar.addEvent(event);
+      calendar.render();
 
       // Clear the input fields after adding the event
       document.getElementById('eventTitle').value = '';
       document.getElementById('eventDate').value = '';
       document.getElementById('eventTime').value = '';
+      document.getElementById('eventEndDate').value = '';
+      document.getElementById('eventEndTime').value = '';
 
       // Store the event on the server-side using a POST request
       fetch('/add_event', {
@@ -64,11 +74,11 @@ document.addEventListener('DOMContentLoaded', function() {
         },
         body: JSON.stringify(event)
       })
-      .then(response => response.json())
-      .then(data => {
-        console.log('Event added successfully:', data);
-      })
-      .catch(error => console.error('Error adding event:', error));
+        .then(response => response.json())
+        .then(data => {
+          console.log('Event added successfully:', data);
+        })
+        .catch(error => console.error('Error adding event:', error));
     } else {
       alert('Invalid input. Please fill in all fields.');
     }

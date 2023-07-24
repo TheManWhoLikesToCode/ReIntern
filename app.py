@@ -140,21 +140,17 @@ def calendar_display():
 
 @app.route('/add_event', methods=['POST'])
 def add_event():
-    # Get the event data from the JSON request
-    event_data = request.get_json()
+    data = request.get_json()
+    title = data.get('title')
+    start_date = data.get('start')
+    end_date = data.get('end_date')
+
+    if not title or not start_date or not end_date:
+        return jsonify({'message': 'Event data is incomplete'}), 400
 
     # Check if the user is logged in
     if 'loggedin' in session:
         user_id = session['id']
-
-        # Extract the event data
-        title = event_data.get('title')
-        start_date = event_data.get('start')
-        end_date = event_data.get('end')
-
-        # Check if the required fields are provided
-        if not title or not start_date or not end_date:
-            return jsonify({'message': 'Event data is incomplete'}), 400
 
         # Create a new event entry in the database associated with the user
         new_event = Event(title=title, start_date=start_date, end_date=end_date, user_id=user_id)
@@ -163,7 +159,8 @@ def add_event():
 
         return jsonify({'message': 'Event added successfully'})
     else:
-        return jsonify({'error': 'User not logged in'}), 401
+        return jsonify({'error': 'User not logged in'})
+
 
 
 
