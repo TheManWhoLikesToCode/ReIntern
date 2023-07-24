@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 ##Author: Jaydin F.
 ##Edited by: Axel C.
 ##Date: 7/19/2023
@@ -13,7 +12,6 @@ from flask import jsonify
 import git
 import threading
 import logging
-from google_calendar_api import main as google_calendar_main, revoke_tokens      ##Import Google Calendar API File 
 
 
 ##Extra python files with their respective 
@@ -21,15 +19,6 @@ from google_calendar_api import main as google_calendar_main, revoke_tokens     
 from forms import RegistrationForm, LoginForm   ##Register and Log in forms 
 from models import User                         ##User Model Import
 
-=======
-from flask import Flask, render_template, url_for, flash, redirect, request, session
-from flask_behind_proxy import FlaskBehindProxy
-from flask_sqlalchemy import SQLAlchemy
-from werkzeug.security import generate_password_hash, check_password_hash
-from flask import jsonify
-from prompt import generate_brag_sheet
-import logging
->>>>>>> fc0af6c6911767d6e73df7dda423de6972c3c3e2
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'your secret key'
@@ -68,9 +57,6 @@ def home():
     logging.info("GET request received at /home route.")
     return render_template('landing_page.html')
 
-<<<<<<< HEAD
-
-=======
 # Routes for registration and login
 
 #   @app.route('/register', methods=['GET', 'POST'])
@@ -88,7 +74,6 @@ def home():
 #           return redirect(url_for('home'))   ## Change for the results page function
 #
 #       return render_template('register.html', title='Register', form=form)
->>>>>>> fc0af6c6911767d6e73df7dda423de6972c3c3e2
 
 
 @app.route("/login", methods=['GET', 'POST'])
@@ -110,24 +95,9 @@ def login():
             flash('Incorrect email / password !')
             print("Login failed")  # Added print statement
     return render_template('login.html')
-<<<<<<< HEAD
-
-    form = LoginForm()
-    if form.validate_on_submit():
-        user = User.query.filter_by(email=form.email.data).first()
-        if user and user.password == form.password.data:
-            login_user(user)
-            flash(f'Welcome Back {form.email.data}!', 'success')
-            return redirect(url_for('hello'))  # Redirect to the homepage
-        else:
-            flash('Invalid email or password.', 'danger')
-
-@app.route("/logout")
-=======
 
 
 @app.route("/logout", methods=['POST'])
->>>>>>> fc0af6c6911767d6e73df7dda423de6972c3c3e2
 def logout():
     session.pop('loggedin', None)
     session.pop('id', None)
@@ -137,21 +107,6 @@ def logout():
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
-<<<<<<< HEAD
-    if current_user.is_authenticated:
-        return redirect(url_for('hello'))
-
-    form = RegistrationForm()
-    if form.validate_on_submit():
-        user = User(email=form.email.data, password=form.password.data)
-        db.session.add(user)
-        db.session.commit()
-        flash(f'Account created for {form.email.data}!', 'success')
-        login_user(user)
-        return redirect(url_for('home'))   ## Change for the results page function
-
-    return render_template('register.html', title='Register', form=form)
-=======
     if request.method == 'POST':
         name = request.form.get('name')
         password = generate_password_hash(
@@ -173,13 +128,11 @@ def register():
             return redirect(url_for('login'))
     return render_template('register.html')
 
->>>>>>> fc0af6c6911767d6e73df7dda423de6972c3c3e2
 
 @app.route('/calendar_display', methods=['GET', 'POST'])
 def calendar_display():
-    events = google_calendar_main()
-    print(events)
-    return render_template('calendar.html', events=events)
+    return render_template('calendar.html')
+
 
 
 @app.route("/index", methods=('GET', 'POST'))
