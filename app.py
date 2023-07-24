@@ -138,29 +138,36 @@ def register():
 def calendar_display():
     return render_template('calendar.html')
 
+
 @app.route('/add_event', methods=['POST'])
 def add_event():
-    data = request.get_json()
-    title = data.get('title')
-    start = data.get('start')
-    end = data.get('end')
+    try:
+        data = request.get_json()
+        title = data.get('title')
+        start_str = data.get('start')
+        end_str = data.get('end')
 
-    if not title or not start_date or not end_date:
-        return jsonify({'message': 'Event data is incomplete'}), 400
+        if not title or not start_str or not end_str:
+            return jsonify({'message': 'Event data is incomplete'}), 400
 
-    # Check if the user is logged in
-    if 'loggedin' in session:
-        user_id = session['id']
+        # Parse the date and time strings into Python datetime objects
+        start = datetime.fromisoformat(start_str)
+        end = datetime.fromisoformat(end_str)
 
-        # Create a new event entry in the database associated with the user
-        new_event = Event(title=title, start_date=start_date, end_date=end_date, user_id=user_id)
-        db.session.add(new_event)
-        db.session.commit()
+        # Check if the user is logged in
+        if 'loggedin' in session:
+            user_id = session['id']
 
-        return jsonify({'message': 'Event added successfully'})
-    else:
-        return jsonify({'error': 'User not logged in'})
+            # Create a new event entry in the database associated with the user
+            new_event = Event(title=title, start_date=start, end_date=end, user_id=user_id)
+            db.session.add(new_event)
+            db.session.commit()
 
+            return jsonify({'message': 'Event added successfully'})
+        else:
+            return jsonify({'error': 'User not logged in'}), 401
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
 
 
 
