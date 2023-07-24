@@ -1,27 +1,16 @@
-<<<<<<< HEAD
 ##Author: Jaydin F.
 ##Edited by: Axel C.
 ##Date: 7/19/2023
 
 from flask import Flask, render_template, redirect, url_for, flash, request, session
-=======
-from flask import Flask, render_template, url_for, flash, redirect, request, session
-from flask_behind_proxy import FlaskBehindProxy
-from datetime import datetime
->>>>>>> 6df3172b6c1488fbb90734f3e6156e6df3726532
 from flask_sqlalchemy import SQLAlchemy
 from flask_behind_proxy import FlaskBehindProxy
 from flask_login import LoginManager, UserMixin, login_user, login_required, current_user,logout_user
 from werkzeug.security import generate_password_hash, check_password_hash
-<<<<<<< HEAD
-from prompt import generate_brag_sheet
+from prompt import generate_brag_sheet, generate_weekly_email
 from flask import jsonify
 import git
 import threading
-=======
-from flask import jsonify
-from prompt import generate_brag_sheet, generate_weekly_email
->>>>>>> 6df3172b6c1488fbb90734f3e6156e6df3726532
 import logging
 from datetime import datetime, timedelta
 
