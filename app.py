@@ -2,30 +2,26 @@
 ##Edited by: Axel C.
 ##Date: 7/19/2023
 
-from flask import Flask, render_template, redirect, url_for, flash, request, session
+from flask import Flask, render_template, redirect, url_for, flash, request, session, jsonify
 from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
 from flask_behind_proxy import FlaskBehindProxy
 from flask_login import LoginManager, UserMixin, login_user, login_required, current_user,logout_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from prompt import generate_brag_sheet, generate_weekly_email
-from flask import jsonify
 import git
 import threading
 import logging
 from datetime import datetime, timedelta
-
-
-
-##Extra python files with their respective 
-
-from forms import RegistrationForm, LoginForm   ##Register and Log in forms 
-from models import User                         ##User Model Import
+from forms import RegistrationForm, LoginForm
+from models import User, Event
 
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'your secret key'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 db = SQLAlchemy(app)
+migrate = Migrate(app, db)
 login_manager = LoginManager(app)
 login_manager.login_view = 'login'  # Specify the login view route name
 @login_manager.user_loader
@@ -134,6 +130,48 @@ def register():
 @app.route('/calendar_display', methods=['GET', 'POST'])
 def calendar_display():
     return render_template('calendar.html')
+
+@app.route('/add_event', methods=['POST'])
+def add_event():
+    # Extract event data from the request
+    title = request.form.get('title')
+    start_date = request.form.get('start_date')
+    end_date = request.form.get('end_date')
+
+    # Check if the user is logged in
+    if 'loggedin' in session:
+        user_id = session['id']
+
+        # Create a new event entry in the database associated with the user
+        new_event = Event(title=title, start_date=start_date, end_date=end_date, user_id=user_id)
+        db.session.add(new_event)
+        db.session.commit()
+
+        return jsonify({'message': 'Event added successfully'})
+    else:
+        return jsonify({'error': 'User not logged in'})
+
+
+
+@app.route('/get_events', methods=['GET'])
+def get_events():
+    # Check if the user is logged in
+    if 'loggedin' in session:
+        user_id = session['id']
+
+        # Query the events associated with the user
+        events = Event.query.filter_by(user_id=user_id).all()
+
+        event_list = []
+        for event in events:
+            event_list.append({
+                'title': event.title,
+                'start': event.start_date.strftime('%Y-%m-%d %H:%M:%S'),
+                'end': event.end_date.strftime('%Y-%m-%d %H:%M:%S')
+            })
+        return jsonify(event_list)
+    else:
+        return jsonify({'error': 'User not logged in'})
 
 
 @app.route('/generate_email', methods=['POST'])

@@ -5,32 +5,42 @@
     <meta charset='utf-8' />
     <link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.css' rel='stylesheet' />
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.js'></script>
+    <style>
+      /* Add custom CSS to adjust the calendar size */
+      #calendar {
+        max-width: 600px; /* Set the maximum width */
+        margin: 0 auto; /* Center the calendar */
+      }
+
+      /* Add custom CSS for the add event box */
+      #addEventBox {
+        border: 1px solid #ccc;
+        padding: 10px;
+        margin-bottom: 20px;
+      }
+
+      /* Adjust the date and time input styles */
+      input[type="date"], input[type="time"] {
+        width: 200px;
+        padding: 5px;
+      }
+    </style>
+    <script src="{{ url_for('static', filename='calendar_script.js') }}"></script>
+
 </head>
 <body>
     <div id='calendar'></div>
-    <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        var calendarEl = document.getElementById('calendar');
-        var calendar = new FullCalendar.Calendar(calendarEl, {
-          initialView: 'dayGridMonth',
-          headerToolbar: {
-            left: 'prev,next today',
-            center: 'title',
-            right: 'dayGridMonth,timeGridWeek,timeGridDay'
-          },
-          events: [
-            // Add your events here
-          ],
-          eventClick: function (info) {
-            alert('Event: ' + info.event.title);
-            alert('Coordinates: ' + info.jsEvent.pageX + ',' + info.jsEvent.pageY);
-            alert('View: ' + info.view.type);
-            // change the border color just for fun
-            info.el.style.borderColor = 'red';
-          }
-        });
-        calendar.render();
-      });
-    </script>
+    <div id="addEventBox">
+      <h3>Add Event</h3>
+      <label for="eventTitle">Event Title:</label>
+      <input type="text" id="eventTitle" required>
+      <br>
+      <label for="eventDate">Event Date:</label>
+      <input type="date" id="eventDate" required>
+      <label for="eventTime">Event Time:</label>
+      <input type="time" id="eventTime" required>
+      <br>
+      <button id='addEventButton'>Add Event</button>
+    </div>
 </body>
 {% endblock content %}
