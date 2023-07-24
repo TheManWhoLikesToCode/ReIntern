@@ -6,8 +6,10 @@ from BingChatAPI import BingChat
 
 def query_llm(prompt):
     # Create an instance of BingChat
+    # Options precise, creative or balaced
     llm = BingChat(cookiepath="/Users/blackhat/Documents/GitHub/ReIntern/cookiesBing.json",
-                   conversation_style="balanced")
+                   conversation_style="precise")
+    
 
     # Query the LLM with the provided prompt
     response = llm(prompt)
@@ -38,7 +40,7 @@ def generate_weekly_email(tasks, name):
 
     Based on this analysis, generate a paragraph for {name}'s weekly email to their boss from the first person perspective.
     
-    Remember: Only output the email.
+    Remember: Only output the emai and Write in FIRST PERSON.
     """
 
     print(f"Prompt: {prompt}")  # Debugging print statement
@@ -91,23 +93,23 @@ def generate_brag_sheet(summary, name):
     return '\n'.join(brag_sheet)
 
 
-# Example usage:
-# name = "Jaydin"
-#
-# summary = """
-# Monday: I started the week by attending a project kickoff meeting for a new client. I took detailed notes and was able to ask insightful questions about the client's needs.
-#
-# Tuesday: I spent the day working on a data analysis task for the new project. I used Python and pandas to clean the data and generate preliminary insights.
-#
-# Wednesday: I presented my initial findings to the project team. My clear communication and thorough analysis were appreciated by all team members.
-#
-# Thursday: I worked on improving the project's codebase. I refactored several key functions to improve readability and performance.
-#
-# Friday: I ended the week by documenting my work on the project. I created a detailed README file and commented my code to ensure that future team members can understand my work.
-# """
-#
-# brag_sheet_bullets = generate_brag_sheet(summary, name)
-#
-# print(brag_sheet_bullets)
-
-print("Prompt.py ran")
+ #Example usage:
+#   name = "Jaydin"
+#   
+#   summary = """
+#   Monday: I started the week by attending a project kickoff meeting for a new client. I took detailed notes and was able to ask insightful questions about the client's needs.
+#   
+#   Tuesday: I spent the day working on a data analysis task for the new project. I used Python and pandas to clean the data and generate preliminary insights.
+#   
+#   Wednesday: I presented my initial findings to the project team. My clear communication and thorough analysis were appreciated by all team members.
+#   
+#   Thursday: I worked on improving the project's codebase. I refactored several key functions to improve readability and performance.
+#   
+#   Friday: I ended the week by documenting my work on the project. I created a detailed README file and commented my code to ensure that future team members can understand my work.
+#   """
+#   
+#   brag_sheet_bullets = generate_brag_sheet(summary, name)
+#   
+#   print(brag_sheet_bullets)
+#   
+#   print("Prompt.py ran")
