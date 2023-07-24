@@ -172,8 +172,13 @@ def generateSummary():
 def result():
     if 'loggedin' in session:
         name = session['name']
-        brag_sheet_bullets = session.get('brag_sheet_bullets', [])
-        return render_template('index.html', name=name, brag_sheet_bullets=brag_sheet_bullets)
+        user_id = session['id']
+
+        # Retrieve tasks from the database for the logged-in user
+        tasks = Task.query.filter_by(user_id=user_id).all()
+
+        # Pass the tasks to the template
+        return render_template('index.html', name=name, tasks=tasks)
     else:
         return redirect(url_for('login'))
 
