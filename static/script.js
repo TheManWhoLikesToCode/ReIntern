@@ -7,10 +7,19 @@ function generateEmail() {
     },
     body: JSON.stringify({ summary: summary }),
   })
-    .then((response) => response.json())
+    .then((response) => {
+      if (!response.ok) {
+        return response.json().then((errorData) => {
+          throw new Error(errorData.message);
+        });
+      }
+      return response.json();
+    })
     .then((data) => {
-      console.log(data);
       document.getElementById("emailResult").innerText = data.email_content;
+    })
+    .catch((error) => {
+      alert("There was a problem with the fetch operation: " + error.message);
     });
 }
 
@@ -24,10 +33,19 @@ function generateSummary() {
     },
     body: `start_date=${startDate}&end_date=${endDate}`,
   })
-    .then((response) => response.json())
+    .then((response) => {
+      if (!response.ok) {
+        return response.json().then((errorData) => {
+          throw new Error(errorData.message);
+        });
+      }
+      return response.json();
+    })
     .then((data) => {
-      console.log(data);
       document.getElementById("summaryResult").innerText = data.summary_result;
+    })
+    .catch((error) => {
+      alert("There was a problem with the fetch operation: " + error.message);
     });
 }
 
@@ -41,17 +59,38 @@ function addTask() {
     },
     body: `task=${task}&date=${date}`,
   })
-    .then((response) => response.json())
-    .then((data) => console.log(data));
+    .then((response) => {
+      if (!response.ok) {
+        return response.json().then((errorData) => {
+          throw new Error(errorData.message);
+        });
+      }
+      return response.json();
+    })
+    .then((data) => {
+      alert(data.message);
+      location.reload(); // This line will refresh the page
+    })
+    .catch((error) => {
+      alert("Please enter a task and a date");
+    });
 }
 
 function deleteTask(taskId) {
   fetch(`/deleteTask/${taskId}`, {
     method: "POST",
   })
-    .then((response) => response.json())
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      return response.json();
+    })
     .then((data) => {
-      console.log(data);
-      // You can add code here to update the UI based on the server's response.
+      alert(data.message);
+      location.reload(); // This line will refresh the page
+    })
+    .catch((error) => {
+      alert("There was a problem with the fetch operation: " + error.message);
     });
 }
