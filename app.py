@@ -142,8 +142,8 @@ def calendar_display():
 def add_event():
     data = request.get_json()
     title = data.get('title')
-    start_date = data.get('start')
-    end_date = data.get('end_date')
+    start = data.get('start')
+    end = data.get('end')
 
     if not title or not start_date or not end_date:
         return jsonify({'message': 'Event data is incomplete'}), 400
