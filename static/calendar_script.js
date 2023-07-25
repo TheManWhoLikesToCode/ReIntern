@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', function () {
         // Delete the event from the calendar
         console.log('Event ID to be deleted:', info.event.id); // Add this line to check the event ID
         info.event.remove();
-      
+
         // Check if the event has a valid ID before making the DELETE request
         if (info.event.id) {
           // Make a DELETE request to the server to remove the event
@@ -49,16 +49,16 @@ document.addEventListener('DOMContentLoaded', function () {
         } else {
           console.error('Event ID is missing or invalid.');
         }
-      
+
         // Hide the options box after clicking "Delete"
         optionsContainer.style.display = 'none';
       });
 
-      // Append the buttons to the options container
+      // Append editButton and deleteButton to the optionsContainer
       optionsContainer.appendChild(editButton);
       optionsContainer.appendChild(deleteButton);
 
-      // Position the options box below the clicked event
+      // Position the optionsContainer below the clicked event
       optionsContainer.style.top = info.jsEvent.clientY + 'px';
       optionsContainer.style.left = info.jsEvent.clientX + 'px';
       optionsContainer.style.display = 'block';
@@ -145,57 +145,57 @@ document.addEventListener('DOMContentLoaded', function () {
     // Show the edit event form
     document.getElementById('editEventForm').style.display = 'block';
   }
+
   // Get the "Save" button element from the edit event form
-var editEventSaveButton = document.getElementById('editEventButton');
+  var editEventSaveButton = document.getElementById('editEventButton');
 
-// Add an event listener to the "Save" button
-editEventSaveButton.addEventListener('click', function () {
-  // Get the updated values from the edit event form
-  var updatedTitle = document.getElementById('editEventTitle').value;
-  var updatedStartDate = document.getElementById('editEventStartDate').value;
-  var updatedStartTime = document.getElementById('editEventStartTime').value;
-  var updatedEndDate = document.getElementById('editEventEndDate').value;
-  var updatedEndTime = document.getElementById('editEventEndTime').value;
+  // Add an event listener to the "Save" button
+  editEventSaveButton.addEventListener('click', function () {
+    // Get the updated values from the edit event form
+    var updatedTitle = document.getElementById('editEventTitle').value;
+    var updatedStartDate = document.getElementById('editEventStartDate').value;
+    var updatedStartTime = document.getElementById('editEventStartTime').value;
+    var updatedEndDate = document.getElementById('editEventEndDate').value;
+    var updatedEndTime = document.getElementById('editEventEndTime').value;
 
-  // Check if the user entered valid title, date, and time
-  if (updatedTitle && updatedStartDate && updatedStartTime && updatedEndDate && updatedEndTime) {
-    // Combine start date and time into a single string in ISO format
-    var updatedStartDateTime = updatedStartDate + 'T' + updatedStartTime + ':00';
+    // Check if the user entered valid title, date, and time
+    if (updatedTitle && updatedStartDate && updatedStartTime && updatedEndDate && updatedEndTime) {
+      // Combine start date and time into a single string in ISO format
+      var updatedStartDateTime = updatedStartDate + 'T' + updatedStartTime + ':00';
 
-    // Combine end date and time into a single string in ISO format
-    var updatedEndDateTime = updatedEndDate + 'T' + updatedEndTime + ':00';
+      // Combine end date and time into a single string in ISO format
+      var updatedEndDateTime = updatedEndDate + 'T' + updatedEndTime + ':00';
 
-    // Update the event on the calendar
-    info.event.setProp('title', updatedTitle);
-    info.event.setStart(updatedStartDateTime);
-    info.event.setEnd(updatedEndDateTime);
+      // Update the event on the calendar
+      info.event.setProp('title', updatedTitle);
+      info.event.setStart(updatedStartDateTime);
+      info.event.setEnd(updatedEndDateTime);
 
-    // Hide the edit event form after saving
-    document.getElementById('editEventForm').style.display = 'none';
+      // Hide the edit event form after saving
+      document.getElementById('editEventForm').style.display = 'none';
 
-    // Send the updated event data to the server using a POST request
-    var updatedEvent = {
-      id: info.event.id,
-      title: updatedTitle,
-      start: updatedStartDateTime,
-      end: updatedEndDateTime
-    };
+      // Send the updated event data to the server using a POST request
+      var updatedEvent = {
+        id: info.event.id,
+        title: updatedTitle,
+        start: updatedStartDateTime,
+        end: updatedEndDateTime
+      };
 
-    fetch('/update_event', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(updatedEvent)
-    })
-      .then(response => response.json())
-      .then(data => {
-        console.log('Event updated successfully:', data);
+      fetch('/update_event', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(updatedEvent)
       })
-      .catch(error => console.error('Error updating event:', error));
-  } else {
-    alert('Invalid input. Please fill in all fields.');
-  }
-});
-
+        .then(response => response.json())
+        .then(data => {
+          console.log('Event updated successfully:', data);
+        })
+        .catch(error => console.error('Error updating event:', error));
+    } else {
+      alert('Invalid input. Please fill in all fields.');
+    }
+  });
 });

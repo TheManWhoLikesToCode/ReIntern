@@ -221,11 +221,11 @@ def update_event():
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
+
 @app.route('/delete_event', methods=['DELETE'])
 def delete_event():
     try:
         data = request.get_json()
-        print("Received data:", data)  
         event_id = data.get('id')
         if not event_id:
             return jsonify({'message': 'Event ID not provided'}), 400
@@ -247,6 +247,7 @@ def delete_event():
         return jsonify({'message': 'Event deleted successfully'})
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+
 
 
 
