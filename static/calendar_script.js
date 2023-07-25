@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
+  var eventInfo;
   var calendarEl = document.getElementById('calendar');
   var calendar = new FullCalendar.Calendar(calendarEl, {
     initialView: 'dayGridMonth',
@@ -9,11 +10,58 @@ document.addEventListener('DOMContentLoaded', function () {
     },
     events: [], // Initialize events as an empty array
     eventClick: function (info) {
-      alert('Event: ' + info.event.title);
-      alert('Coordinates: ' + info.jsEvent.pageX + ',' + info.jsEvent.pageY);
-      alert('View: ' + info.view.type);
-      // change the border color just for fun
-      info.el.style.borderColor = 'red';
+      eventInfo = info;
+      // Create the options box
+      var optionsContainer = document.getElementById('optionsContainer');
+      optionsContainer.innerHTML = ''; // Clear any previous content
+
+      var editButton = document.createElement('button');
+      editButton.textContent = 'Edit';
+      editButton.addEventListener('click', function () {
+        // Edit the event
+        showEditForm(info.event);
+        // Hide the options box after clicking "Edit"
+        optionsContainer.style.display = 'none';
+      });
+var deleteButton = document.createElement('button');
+deleteButton.textContent = 'Delete';
+deleteButton.addEventListener('click', function () {
+    var eventToDelete = eventInfo.event; // Get the FullCalendar event directly from eventInfo
+
+    // Delete the event from the calendar
+    eventToDelete.remove();
+
+    // Check if the event has a valid ID before making the DELETE request
+    if (eventToDelete.id) {
+        // Make a DELETE request to the server to remove the event
+        fetch('/delete_event', {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ id: eventToDelete.id }) // Pass the event ID in the request body
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Response from server:', data);
+            console.log('Event deleted successfully:', data);
+        })
+        .catch(error => console.error('Error deleting event:', error));
+    } else {
+        console.error('Event ID is missing or invalid.');
+    }
+
+    // Hide the options box after clicking "Delete"
+    optionsContainer.style.display = 'none';
+});
+
+
+      // Append the buttons to the options container
+      optionsContainer.appendChild(editButton);
+      optionsContainer.appendChild(deleteButton);
+
+      // Show the options box
+      optionsContainer.style.display = 'block';
     }
   });
 
@@ -79,6 +127,108 @@ document.addEventListener('DOMContentLoaded', function () {
           console.log('Event added successfully:', data);
         })
         .catch(error => console.error('Error adding event:', error));
+    } else {
+      alert('Invalid input. Please fill in all fields.');
+    }
+  });
+
+  // Function to show the event editing form when an event is clicked
+  function showEditForm(event) {
+    // Set the current event data in the form fields
+    document.getElementById('editEventTitle').value = event.title;
+    document.getElementById('editEventStartDate').value = formatDateForInput(event.start);
+    document.getElementById('editEventStartTime').value = formatTimeForInput(event.start);
+    document.getElementById('editEventEndDate').value = formatDateForInput(event.end);
+    document.getElementById('editEventEndTime').value = formatTimeForInput(event.end);
+
+    // Show the edit event form
+    document.getElementById('editEventForm').style.display = 'block';
+  }
+
+  // Helper function to format the date for the input field in "mm/dd/yyyy" format
+  function formatDateForInput(dateStr) {
+    const dateObj = new Date(dateStr);
+    const month = String(dateObj.getMonth() + 1).padStart(2, '0');
+    const day = String(dateObj.getDate()).padStart(2, '0');
+    const year = dateObj.getFullYear();
+    return `${month}/${day}/${year}`;
+  }
+
+  // Helper function to format the time for the input field (HH:mm format)
+  function formatTimeForInput(dateStr) {
+    const dateObj = new Date(dateStr);
+    const hours = String(dateObj.getHours()).padStart(2, '0');
+    const minutes = String(dateObj.getMinutes()).padStart(2, '0');
+    return `${hours}:${minutes}`;
+  }
+
+  function formatDateTimeForServer(dateStr) {
+    const dateObj = new Date(dateStr);
+    
+    const year = dateObj.getFullYear();
+    const month = String(dateObj.getMonth() + 1).padStart(2, '0');
+    const day = String(dateObj.getDate()).padStart(2, '0');
+    const hours = String(dateObj.getHours()).padStart(2, '0');
+    const minutes = String(dateObj.getMinutes()).padStart(2, '0');
+    const seconds = String(dateObj.getSeconds()).padStart(2, '0');
+    
+    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+  }
+  
+  
+
+  // Get the "Save" button element from the edit event form
+  var editEventSaveButton = document.getElementById('editEventButton');
+
+  // Add an event listener to the "Save" button
+  editEventSaveButton.addEventListener('click', function () {
+    // Get the updated values from the edit event form
+    var updatedTitle = document.getElementById('editEventTitle').value;
+    var updatedStartDate = document.getElementById('editEventStartDate').value;
+    var updatedStartTime = document.getElementById('editEventStartTime').value;
+    var updatedEndDate = document.getElementById('editEventEndDate').value;
+    var updatedEndTime = document.getElementById('editEventEndTime').value;
+  
+    // Check if the user entered valid title, date, and time
+    if (updatedTitle && updatedStartDate && updatedStartTime && updatedEndDate && updatedEndTime) {
+      // Combine start date and time into a single string in ISO format
+      var updatedStartDateTime = updatedStartDate + 'T' + updatedStartTime + ':00';
+  
+      // Combine end date and time into a single string in ISO format
+      var updatedEndDateTime = updatedEndDate + 'T' + updatedEndTime + ':00';
+  
+      // Update the event on the calendar
+      eventInfo.event.setProp('title', updatedTitle);
+      eventInfo.event.setStart(updatedStartDateTime);
+      eventInfo.event.setEnd(updatedEndDateTime);
+  
+      // Hide the edit event form after saving
+      document.getElementById('editEventForm').style.display = 'none';
+  
+      // Send the updated event data to the server using a POST request
+      var updatedEvent = {
+        id: eventInfo.event.id, // Use eventInfo to access the clicked event's information
+        title: updatedTitle,
+        start: formatDateTimeForServer(updatedStartDateTime),
+        end: formatDateTimeForServer(updatedEndDateTime)
+      };
+  
+      fetch('/update_event', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(updatedEvent)
+      })
+        .then(response => response.json())
+        .then(data => {
+          if (data.message === 'Event data is incomplete') {
+            console.error('Event data is incomplete. The server did not update the event.');
+          } else {
+            console.log('Event updated successfully:', data);
+          }
+        })
+        .catch(error => console.error('Error updating event:', error));
     } else {
       alert('Invalid input. Please fill in all fields.');
     }

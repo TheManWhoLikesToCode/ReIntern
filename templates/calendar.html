@@ -27,8 +27,8 @@
       }
     </style>
     <script src="{{ url_for('static', filename='calendar_script.js') }}"></script>
-
 </head>
+
 <body>
     <div id='calendar'></div>
     <div id="addEventBox">
@@ -46,7 +46,28 @@
       <label for="eventEndTime">Event End Time:</label>
       <input type="time" id="eventEndTime" required>
       <br>
-      <button id='addEventButton' class="btn" style="background-color: #140F3A">Add Event</button>      
+      <button id='addEventButton'>Add Event</button>
     </div>
+
+    <!-- Add the edit event form -->
+    <div id="editEventForm" style="display: none;">
+      <h3>Edit Event</h3>
+      <label for="editEventTitle">Event Title:</label>
+      <input type="text" id="editEventTitle" required>
+      <br>
+      <label for="editEventStartDate">Event Start Date:</label>
+      <input type="date" id="editEventStartDate" required>
+      <label for="editEventStartTime">Event Start Time:</label>
+      <input type="time" id="editEventStartTime" required>
+      <br>
+      <label for="editEventEndDate">Event End Date:</label>
+      <input type="date" id="editEventEndDate" required>
+      <label for="editEventEndTime">Event End Time:</label>
+      <input type="time" id="editEventEndTime" required>
+      <br>
+      <button id='editEventButton'>Save</button>
+      <button id='editEventCancelButton'>Cancel</button>
+    </div>
+    <div id="optionsContainer" style="display: none;"></div>
 </body>
 {% endblock content %}
