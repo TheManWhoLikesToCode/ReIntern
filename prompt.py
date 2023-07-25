@@ -1,14 +1,13 @@
 # Author: Jaydin F
 # Date: 7/19/2023
 # Purpose: Query openLLM models like GPT-3
-from BingChatAPI import BingChatAPI
+from BingChatAPI import BingChat
 
 
 def query_llm(prompt):
     # Create an instance of BingChat
     # Options precise, creative or balaced
-    llm = BingChat(cookiepath="/Users/blackhat/Documents/GitHub/ReIntern/cookiesBing.json",
-                   conversation_style="precise")
+    llm = BingChat(cookiepath="/Users/blackhat/Documents/GitHub/ReIntern/cookiesBing.json", conversation_style="precise")
     
 
     # Query the LLM with the provided prompt

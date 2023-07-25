@@ -1,31 +1,51 @@
 {% extends 'layout_two.html' %} {% block content %}
 
 <div class="results_page">
-  <h1 style="text-align: none;">Welcome Back {{ name | capitalize }}!</h1>
+  <h1 style="text-align: none">Welcome Back {{ name | capitalize }}!</h1>
   <!-- Change 'user' in app.py file -->
 
-  <div class="box" style="background-color: #27A9DC;">
+  <div class="box" style="background-color: #27a9dc">
     <div class="row" class="center_object">
-      <div class="col-md-6">
+      <div class="col-12">
         <h3 class="text-center">To Do List</h3>
-        <div class="tasks" style="background-color: #e5e5e5;">
-          <ul style="list-style: none;">
-            <li class="countdown" style="background-color: #e5e5e5;">
-              <h3><strong>Countdown to Weekly Email:</strong><br> 
-                {{ days_until_friday }} days left </h3>
+        <div class="tasks" style="background-color: #e5e5e5">
+          <ul style="list-style: none">
+            <li class="countdown" style="background-color: #e5e5e5">
+              <h3>
+                <strong>Countdown to Weekly Email:</strong><br />
+                {{ days_until_friday }} days left
+              </h3>
             </li>
           </ul>
         </div>
       </div>
-      <div class="col-md-6">
+      <div class="col-12">
         <div class="task-container">
-          <h3 class="text-center" style="margin: -3px; padding: 0;">Completed</h3>
+          <h3 class="text-center" style="margin: -3px; padding: 0">
+            Completed
+          </h3>
           <div class="tasks" style="background-color: #e5e5e5">
             <table id="taskTable" style="background-color: #e5e5e5">
               <thead>
                 <tr>
-                  <th style="background-color:#140F3A; color: white; text-align: center;">Task</th>
-                  <th style="background-color:#140F3A; color: white; text-align: center;">Date</th>
+                  <th
+                    style="
+                      background-color: #140f3a;
+                      color: white;
+                      text-align: center;
+                    "
+                  >
+                    Task
+                  </th>
+                  <th
+                    style="
+                      background-color: #140f3a;
+                      color: white;
+                      text-align: center;
+                    "
+                  >
+                    Date
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -41,12 +61,12 @@
         </div>
       </div>
     </div>
-    <div class="center_object" style="text-align: center;">
+    <div class="center_object" style="text-align: center">
       <a
         href="{{ url_for('dashboard') }}"
         class="btn link_no_decoration"
-        style="color: white; background-color: #140F3A">
-        
+        style="color: white; background-color: #140f3a"
+      >
         Add items
       </a>
     </div>

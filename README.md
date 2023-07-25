@@ -8,5 +8,13 @@ ReIntern is an Internship assitant to help you manage and track your internship
 - :books: Internship 101 guides and tips
 - :speech_balloon: Check-ins with your manager
 
-# To Do 
-- Add date range to generete brag sheet
+To Do
+* Slogan - andrew
+* Sub-Text, Clarification - andrew
+* Loading Message - Jaydin [Done]
+* Hosting - Jaydin - [In- Progress]
+* Rename Wiki
+* Grey Calender
+* Background
+* Calender & Editing Events - Axel
+* UI Stuff - Mahmood
