@@ -9,11 +9,59 @@ document.addEventListener('DOMContentLoaded', function () {
     },
     events: [], // Initialize events as an empty array
     eventClick: function (info) {
-      alert('Event: ' + info.event.title);
-      alert('Coordinates: ' + info.jsEvent.pageX + ',' + info.jsEvent.pageY);
-      alert('View: ' + info.view.type);
-      // change the border color just for fun
-      info.el.style.borderColor = 'red';
+      console.log('Clicked event:', info.event);
+      // Create the options box
+      var optionsContainer = document.getElementById('optionsContainer');
+      optionsContainer.innerHTML = ''; // Clear any previous content
+
+      var editButton = document.createElement('button');
+      editButton.textContent = 'Edit';
+      editButton.addEventListener('click', function () {
+        // Edit the event
+        showEditForm(info.event);
+        // Hide the options box after clicking "Edit"
+        optionsContainer.style.display = 'none';
+      });
+
+      var deleteButton = document.createElement('button');
+      deleteButton.textContent = 'Delete';
+      deleteButton.addEventListener('click', function () {
+        // Delete the event from the calendar
+        console.log('Event ID to be deleted:', info.event.id); // Add this line to check the event ID
+        info.event.remove();
+      
+        // Check if the event has a valid ID before making the DELETE request
+        if (info.event.id) {
+          // Make a DELETE request to the server to remove the event
+          fetch('/delete_event', {
+            method: 'DELETE',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ id: info.event.id }) // Pass the event ID in the request body
+          })
+            .then(response => response.json())
+            .then(data => {
+              console.log('Response from server:', data); // Add this line to see the response from the server
+              console.log('Event deleted successfully:', data);
+            })
+            .catch(error => console.error('Error deleting event:', error));
+        } else {
+          console.error('Event ID is missing or invalid.');
+        }
+      
+        // Hide the options box after clicking "Delete"
+        optionsContainer.style.display = 'none';
+      });
+
+      // Append the buttons to the options container
+      optionsContainer.appendChild(editButton);
+      optionsContainer.appendChild(deleteButton);
+
+      // Position the options box below the clicked event
+      optionsContainer.style.top = info.jsEvent.clientY + 'px';
+      optionsContainer.style.left = info.jsEvent.clientX + 'px';
+      optionsContainer.style.display = 'block';
     }
   });
 
@@ -50,6 +98,7 @@ document.addEventListener('DOMContentLoaded', function () {
       var endDateTime = endDate + 'T' + endTime + ':00';
 
       var event = {
+        id: data.id,
         title: title,
         start: startDateTime,
         end: endDateTime
@@ -83,4 +132,17 @@ document.addEventListener('DOMContentLoaded', function () {
       alert('Invalid input. Please fill in all fields.');
     }
   });
+
+  // Function to show the event editing form when an event is clicked
+  function showEditForm(event) {
+    // Set the current event data in the form fields
+    document.getElementById('editEventTitle').value = event.title;
+    document.getElementById('editEventStartDate').value = event.start;
+    document.getElementById('editEventStartTime').value = event.startStr.slice(11, 16);
+    document.getElementById('editEventEndDate').value = event.end;
+    document.getElementById('editEventEndTime').value = event.endStr.slice(11, 16);
+
+    // Show the edit event form
+    document.getElementById('editEventForm').style.display = 'block';
+  }
 });
