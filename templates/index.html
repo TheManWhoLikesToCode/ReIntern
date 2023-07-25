@@ -1,51 +1,55 @@
 {% extends 'layout_two.html' %} {% block content %}
 
 <div class="results_page">
-  <h1>Welcome Back {{ name | capitalize }}!</h1>
+  <h1 style="text-align: none;">Welcome Back {{ name | capitalize }}!</h1>
   <!-- Change 'user' in app.py file -->
 
-  <div class="box">
-    <h1 class="text-center">To Do List</h1>
-    <div class="tasks">
-      <ul style="list-style: none">
-        <li class="countdown">
-          <strong>Countdown to Weekly Email:</strong> {{ days_until_friday }}
-          days left
-        </li>
-      </ul>
-    </div>
-
-    <div class="task-container">
-      <h1 class="text-center">Completed</h1>
-      <div class="tasks">
-        <table id="taskTable">
-          <thead>
-            <tr>
-              <th>Task</th>
-              <th>Date</th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for task in tasks %}
-            <tr>
-              <td>{{ task.task }}</td>
-              <td>{{ task.date.strftime('%Y-%m-%d') }}</td>
-            </tr>
-            {% endfor %}
-          </tbody>
-        </table>
+  <div class="box" style="background-color: #27A9DC;">
+    <div class="row" class="center_object">
+      <div class="col-md-6">
+        <h3 class="text-center">To Do List</h3>
+        <div class="tasks" style="background-color: #e5e5e5;">
+          <ul style="list-style: none;">
+            <li class="countdown" style="background-color: #e5e5e5;">
+              <h3><strong>Countdown to Weekly Email:</strong><br> 
+                {{ days_until_friday }} days left </h3>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="task-container">
+          <h3 class="text-center" style="margin: -3px; padding: 0;">Completed</h3>
+          <div class="tasks" style="background-color: #e5e5e5">
+            <table id="taskTable" style="background-color: #e5e5e5">
+              <thead>
+                <tr>
+                  <th style="background-color:#140F3A; color: white; text-align: center;">Task</th>
+                  <th style="background-color:#140F3A; color: white; text-align: center;">Date</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for task in tasks %}
+                <tr>
+                  <td>{{ task.task }}</td>
+                  <td>{{ task.date.strftime('%Y-%m-%d') }}</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-
-  <div class="center_object">
-    <a
-      href="{{ url_for('dashboard') }}"
-      class="btn link_no_decoration"
-      style="color: white"
-    >
-      Add items
-    </a>
+    <div class="center_object" style="text-align: center;">
+      <a
+        href="{{ url_for('dashboard') }}"
+        class="btn link_no_decoration"
+        style="color: white; background-color: #140F3A">
+        
+        Add items
+      </a>
+    </div>
   </div>
 </div>
 
