@@ -2,16 +2,33 @@
 
 <div class="dashboard_page">
   <div class="box" style="background-color: #27A9DC">
-    <h1 class="title">Results</h1>
+    <h1 class="title"></h1>
     <div class="task-container">
       <div class="tasks">
-        <h2>Tasks</h2>
+        <h2>Completed Tasks</h2>
+        <p> Enter tasks you've already completed, not what to complete.</p>
         <table id="taskTable">
           <thead>
             <tr>
-              <th style="background-color: #140F3A; color: white;"></th>
-              <th style="background-color: #140F3A; color: white; text-align: center;">Date</th>
-              <th style="background-color: #140F3A; color: white; text-align: center;">Action</th>
+              <th style="background-color: #140f3a; color: white"></th>
+              <th
+                style="
+                  background-color: #140f3a;
+                  color: white;
+                  text-align: center;
+                "
+              >
+                Date
+              </th>
+              <th
+                style="
+                  background-color: #140f3a;
+                  color: white;
+                  text-align: center;
+                "
+              >
+                Action
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -23,7 +40,7 @@
                 <button
                   class="btn center_object"
                   onclick="deleteTask( {{ task.id | tojson | safe }} )"
-                  style="background-color: #140F3A;"
+                  style="background-color: #140f3a"
                 >
                   Delete
                 </button>
@@ -34,13 +51,25 @@
         </table>
         <input type="text" id="newTask" placeholder="Enter a new task..." />
         <input type="date" id="taskDate" />
-        <button class="btn" onclick="addTask()" style="background-color: #140F3A;">Add Task</button>
+        <button
+          class="btn"
+          onclick="addTask()"
+          style="background-color: #140f3a"
+        >
+          Add Task
+        </button>
       </div>
 
       <div class="email">
         <h2>Weekly Email to Manager/Mentor</h2>
         <p id="emailContent"></p>
-        <button class="btn" onclick="generateEmail()" style="background-color: #140F3A;">Generate Email</button>
+        <button
+          class="btn"
+          onclick="generateEmail()"
+          style="background-color: #140f3a"
+        >
+          Generate Email
+        </button>
         <h3 style="margin-top: 20px">Your Weekly Email:</h3>
         <p id="emailResult"></p>
       </div>
@@ -49,12 +78,23 @@
         <h2>Generate Summary</h2>
         <input type="date" id="startDate" />
         <input type="date" id="endDate" />
-        <button class="btn" onclick="generateSummary()" style="background-color: #140F3A;">
+        <button
+          class="btn"
+          onclick="generateSummary()"
+          style="background-color: #140f3a"
+        >
           Generate Summary
         </button>
         <h3 style="margin-top: 20px">Your Summary:</h3>
         <p id="summaryResult"></p>
       </div>
+    </div>
+  </div>
+
+  <div id="loadingOverlay" class="overlay" style="display: none">
+    <div id="loadingSpinner" class="spinner">
+      <div class="cube1"></div>
+      <div class="cube2"></div>
     </div>
   </div>
 </div>
