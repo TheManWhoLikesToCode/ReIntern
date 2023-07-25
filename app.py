@@ -164,11 +164,6 @@ def add_event():
         return jsonify({'error': str(e)}), 500
 
 
-<<<<<<< HEAD
-
-
-=======
->>>>>>> main
 @app.route('/get_events', methods=['GET'])
 def get_events():
     # Check if the user is logged in
