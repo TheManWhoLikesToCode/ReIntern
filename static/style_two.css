@@ -5,8 +5,8 @@ body {
   padding: 0;
   height: 100vh;
   width: 100%;
-  font-family: Arial, sans-serif;
-  background-color: #cccacb;
+  font-family: "Roboto", sans-serif; /* Modern font */
+  background-color: #f0f0f0; /* Lighter background */
   background-size: cover;
   background-position: center;
 }
@@ -20,6 +20,7 @@ body {
   z-index: -1;
   object-fit: cover;
 }
+
 .link_no_decoration {
   text-decoration: none;
   color: inherit;
@@ -33,12 +34,16 @@ body {
   padding: 10px 20px;
   border: none;
   border-radius: 5px;
-  background-color: #16191c;
+  background-color: #3498db; /* Brighter color */
   color: white;
   font-size: 1em;
   cursor: pointer;
   transition: background-color 0.3s ease;
   margin-top: 10px;
+}
+
+.btn:hover {
+  background-color: #2980b9; /* Darker on hover */
 }
 
 /* Navigation Bar Styles */
@@ -73,12 +78,16 @@ body {
   padding: 10px 20px;
   border: none;
   border-radius: 5px;
-  background-color: #16191c;
+  background-color: #3498db; /* Brighter color */
   color: white;
   font-size: 1em;
   cursor: pointer;
   transition: background-color 0.3s ease;
   margin-top: 10px;
+}
+
+.btn:hover {
+  background-color: #2980b9; /* Darker on hover */
 }
 
 textarea {
@@ -87,7 +96,7 @@ textarea {
   padding: 10px;
   border-radius: 5px;
   border: 1px solid #ccc;
-  font-family: Arial, sans-serif;
+  font-family: "Roboto", sans-serif; /* Modern font */
   font-size: 1em;
   margin-bottom: 20px;
 }
@@ -116,7 +125,7 @@ li {
 
 .results_page {
   width: 100%;
-  background-color: #cccacb;
+  background-color: #f0f0f0; /* Lighter background */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -125,12 +134,13 @@ li {
 
 .countdown {
   font-size: 2em;
-  color: #16191c; /* changed color to match button background */
-  border: 2px solid #16191c; /* changed color to match button background */
+  color: #16191c;
+  border: 2px solid #16191c;
   padding: 10px;
   border-radius: 5px;
   margin-bottom: 20px;
   text-align: center;
+  animation: countdown 0.3s ease-out; /* Add animation */
 }
 
 .center_object {
@@ -155,7 +165,7 @@ li {
   padding: 20px;
   background-color: #e5e5e5;
   border-radius: 10px;
-  box-shadow: 50px 50px 50px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15); /* Less intense shadow */
 }
 
 .task-container {
@@ -172,7 +182,7 @@ li {
   padding: 20px;
   background-color: #fff;
   border-radius: 10px;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1); /* Less intense shadow */
   margin-bottom: 20px;
 }
 
@@ -229,7 +239,7 @@ input[type="text"]:hover,
 input[type="date"]:hover,
 input[type="text"]:focus,
 input[type="date"]:focus {
-  border-color: #16191c;
+  border-color: #3498db; /* Brighter color */
   outline: none;
 }
 
@@ -240,13 +250,125 @@ input[type="date"] {
 }
 
 /* Calendar Page */
-.calendar_page {
-  margin: 2%;
+/* style.css */
+#calendar {
+  max-width: 900px; /* Set the maximum width */
+  margin: 0 auto; /* Center the calendar */
+  padding: 20px;
+  background-color: #e5e5e5;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
 }
 
-/* Wiki Page */
+/* Add custom CSS for the add event box */
+#addEventBox {
+  border: 1px solid #ccc;
+  padding: 20px;
+  margin: 20px auto;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1); /* Less intense shadow */
+  max-width: 900px;
+}
+
+/* Adjust the date and time input styles */
+input[type="date"],
+input[type="time"],
+input[type="text"] {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1.2em;
+  margin-bottom: 10px;
+  transition: border-color 0.3s ease;
+}
+
+input[type="date"]:hover,
+input[type="time"]:hover,
+input[type="text"]:hover,
+input[type="date"]:focus,
+input[type="time"]:focus,
+input[type="text"]:focus {
+  border-color: #3498db; /* Brighter color */
+  outline: none;
+}
+
+#addEventButton {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  background-color: #3498db; /* Brighter color */
+  color: white;
+  font-size: 1em;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#addEventButton:hover {
+  background-color: #2980b9; /* Darker on hover */
+}
+
+/* Wiki Page Styles */
 .wiki_page {
-  margin: 2%;
+  margin: 5%;
+  padding: 20px;
+  background-color: #e5e5e5;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.wiki_page h1 {
+  font-size: 2.5em;
+  color: #16191c;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.wiki_page h2 {
+  font-size: 2em;
+  color: #16191c;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+.wiki_page p {
+  font-size: 1em;
+  color: #4b535a;
+  line-height: 1.5;
+  text-align: justify;
+}
+
+.wiki_page ul {
+  list-style-type: disc;
+  margin-left: 20px;
+}
+
+.wiki_page ul li {
+  font-size: 1em;
+  color: #4b535a;
+  line-height: 1.5;
+  margin-bottom: 10px;
+}
+
+#scroll-to-top-btn {
+  display: none;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 99;
+  border: none;
+  outline: none;
+  background-color: #3498db;
+  color: white;
+  cursor: pointer;
+  padding: 15px;
+  border-radius: 10px;
+  font-size: 18px;
+}
+
+#scroll-to-top-btn.show {
+  display: block;
 }
 
 /* Settings Page */
@@ -264,14 +386,15 @@ input[type="date"] {
   position: relative;
 }
 
-.cube1, .cube2 {
-  background-color: #3498db;
+.cube1,
+.cube2 {
+  background-color: #3498db; /* Brighter color */
   width: 15px;
   height: 15px;
   position: absolute;
   top: 0;
   left: 0;
-  
+
   -webkit-animation: sk-cubemove 1.8s infinite ease-in-out;
   animation: sk-cubemove 1.8s infinite ease-in-out;
 }
@@ -282,26 +405,40 @@ input[type="date"] {
 }
 
 @-webkit-keyframes sk-cubemove {
-  25% { -webkit-transform: translateX(42px) rotate(-90deg) scale(0.5) }
-  50% { -webkit-transform: translateX(42px) translateY(42px) rotate(-180deg) }
-  75% { -webkit-transform: translateX(0px) translateY(42px) rotate(-270deg) scale(0.5) }
-  100% { -webkit-transform: rotate(-360deg) }
+  25% {
+    -webkit-transform: translateX(42px) rotate(-90deg) scale(0.5);
+  }
+  50% {
+    -webkit-transform: translateX(42px) translateY(42px) rotate(-180deg);
+  }
+  75% {
+    -webkit-transform: translateX(0px) translateY(42px) rotate(-270deg)
+      scale(0.5);
+  }
+  100% {
+    -webkit-transform: rotate(-360deg);
+  }
 }
 
 @keyframes sk-cubemove {
-  25% { 
+  25% {
     transform: translateX(42px) rotate(-90deg) scale(0.5);
     -webkit-transform: translateX(42px) rotate(-90deg) scale(0.5);
-  } 50% { 
+  }
+  50% {
     transform: translateX(42px) translateY(42px) rotate(-179deg);
     -webkit-transform: translateX(42px) translateY(42px) rotate(-179deg);
-  } 50.1% { 
+  }
+  50.1% {
     transform: translateX(42px) translateY(42px) rotate(-180deg);
     -webkit-transform: translateX(42px) translateY(42px) rotate(-180deg);
-  } 75% { 
+  }
+  75% {
     transform: translateX(0px) translateY(42px) rotate(-270deg) scale(0.5);
-    -webkit-transform: translateX(0px) translateY(42px) rotate(-270deg) scale(0.5);
-  } 100% { 
+    -webkit-transform: translateX(0px) translateY(42px) rotate(-270deg)
+      scale(0.5);
+  }
+  100% {
     transform: rotate(-360deg);
     -webkit-transform: rotate(-360deg);
   }
