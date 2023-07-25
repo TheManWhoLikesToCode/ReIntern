@@ -1,6 +1,4 @@
-# Forked from FREE_Auto_GPT author: IntelligenzaArtificiale
-
-from EdgeGPT.EdgeGPT import Chatbot, ConversationStyle
+from EdgeGPT import Chatbot, ConversationStyle
 import asyncio
 from langchain.llms.base import LLM
 from typing import Optional, List, Mapping, Any
@@ -94,9 +92,7 @@ class BingChat(LLM):
         return {"model": "BingCHAT", "cookiepath": self.cookiepath}
 
 
-# lm = BingChat(cookiepath="/Users/blackhat/Documents/GitHub/ReIntern/cookiesBing.json",
-#               conversation_style="precise")
-# llm = BingChat(cookiepath = "YOUR-COOKIE") #for start new chat
+# llm = BingChat(cookiepath = "/Users/blackhat/Documents/GitHub/ReIntern/cookiesBing.json", conversation_style = "precise") #for start new chat
 # llm = BingChat(cookiepath = "YOUR-COOKIE", conversation_style = "precise") #precise, creative or balaced
 # llm = BingChat(cookiepath = "YOUR-COOKIE" , conversation_style = "precise" , search_result=True) #with web access
 
