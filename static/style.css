@@ -126,11 +126,6 @@ form {
   border-radius: 5px;
   border: 1px solid #ccc;
 }
-<<<<<<< HEAD
-
-/* Results Page */
-=======
->>>>>>> fc0af6c6911767d6e73df7dda423de6972c3c3e2
 
 .results_page {
   margin: 5%;
@@ -183,8 +178,6 @@ h2 {
   margin-bottom: 10px;
 }
 
-<<<<<<< HEAD
-=======
 .main_video {
   position: absolute;
   top: 0;
@@ -194,4 +187,3 @@ h2 {
   z-index: -1;
   object-fit: cover;
 }
->>>>>>> fc0af6c6911767d6e73df7dda423de6972c3c3e2

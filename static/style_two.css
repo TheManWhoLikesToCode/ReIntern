@@ -78,6 +78,11 @@ li {
   align-items: center;
 }
 
+/* Wiki */
+.wiki_page {
+  margin: 5%;
+}
+
 .box {
   min-width: 80vw;
   margin: auto;

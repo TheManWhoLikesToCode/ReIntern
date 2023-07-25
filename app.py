@@ -322,7 +322,6 @@ def deleteTask(task_id):
 def wiki():
     return render_template('wiki.html')
 
-
 @app.route('/dashboard', methods=['GET', 'POST'])
 def dashboard():
     if 'loggedin' in session:
@@ -342,4 +341,4 @@ if __name__ == '__main__':
     with app.app_context():
         db.create_all()
     #app.run(debug=True, host="0.0.0.0")
-    app.run(debug=True, host="0.0.0.0", port=8081)
+    app.run(debug=True, host="0.0.0.0", port=8083)
