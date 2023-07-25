@@ -184,6 +184,7 @@ def get_events():
     else:
         return jsonify({'error': 'User not logged in'})
 
+from datetime import datetime
 @app.route('/update_event', methods=['POST'])
 def update_event():
     try:
@@ -196,9 +197,9 @@ def update_event():
         if not event_id or not title or not start_str or not end_str:
             return jsonify({'message': 'Event data is incomplete'}), 400
 
-        # Parse the date and time strings into Python datetime objects
-        start = datetime.fromisoformat(start_str)
-        end = datetime.fromisoformat(end_str)
+        # Parse the date strings into Python datetime objects (using "mm/dd/yyyy" format)
+        start = datetime.strptime(start_str, '%m/%d/%Y')
+        end = datetime.strptime(end_str, '%m/%d/%Y')
 
         # Check if the user is logged in
         if 'loggedin' in session:
@@ -215,11 +216,19 @@ def update_event():
 
             db.session.commit()
 
-            return jsonify({'message': 'Event updated successfully'})
+            return jsonify({'message': 'Event updated successfully',
+                            'updateEvent': {
+                                'title': event.title,
+                                'start': event.start_date.strftime('%Y-%m-%d %H:%M:%S'),
+                                'end': event.end_date.strftime('%Y-%m-%d %H:%M:%S')
+                            }})
         else:
             return jsonify({'error': 'User not logged in'}), 401
+
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+
+            
 
 
 @app.route('/delete_event', methods=['DELETE'])

@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
+  var eventInfo;
   var calendarEl = document.getElementById('calendar');
   var calendar = new FullCalendar.Calendar(calendarEl, {
     initialView: 'dayGridMonth',
@@ -9,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function () {
     },
     events: [], // Initialize events as an empty array
     eventClick: function (info) {
-      console.log('Clicked event:', info.event);
+      eventInfo = info;
       // Create the options box
       var optionsContainer = document.getElementById('optionsContainer');
       optionsContainer.innerHTML = ''; // Clear any previous content
@@ -26,19 +27,22 @@ document.addEventListener('DOMContentLoaded', function () {
       var deleteButton = document.createElement('button');
       deleteButton.textContent = 'Delete';
       deleteButton.addEventListener('click', function () {
+        // Inside the eventClick function, add this line to make 'info' available in the scope
+        var eventToDelete = calendar.getEventById(info.event.id);
+
         // Delete the event from the calendar
-        console.log('Event ID to be deleted:', info.event.id); // Add this line to check the event ID
-        info.event.remove();
+        console.log('Event ID to be deleted:', eventToDelete.id); // Add this line to check the event ID
+        eventToDelete.remove();
 
         // Check if the event has a valid ID before making the DELETE request
-        if (info.event.id) {
+        if (eventToDelete.id) {
           // Make a DELETE request to the server to remove the event
           fetch('/delete_event', {
             method: 'DELETE',
             headers: {
               'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ id: info.event.id }) // Pass the event ID in the request body
+            body: JSON.stringify({ id: eventToDelete.id }) // Pass the event ID in the request body
           })
             .then(response => response.json())
             .then(data => {
@@ -54,13 +58,11 @@ document.addEventListener('DOMContentLoaded', function () {
         optionsContainer.style.display = 'none';
       });
 
-      // Append editButton and deleteButton to the optionsContainer
+      // Append the buttons to the options container
       optionsContainer.appendChild(editButton);
       optionsContainer.appendChild(deleteButton);
 
-      // Position the optionsContainer below the clicked event
-      optionsContainer.style.top = info.jsEvent.clientY + 'px';
-      optionsContainer.style.left = info.jsEvent.clientX + 'px';
+      // Show the options box
       optionsContainer.style.display = 'block';
     }
   });
@@ -98,7 +100,6 @@ document.addEventListener('DOMContentLoaded', function () {
       var endDateTime = endDate + 'T' + endTime + ':00';
 
       var event = {
-        id: data.id,
         title: title,
         start: startDateTime,
         end: endDateTime
@@ -146,6 +147,7 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('editEventForm').style.display = 'block';
   }
 
+
   // Get the "Save" button element from the edit event form
   var editEventSaveButton = document.getElementById('editEventButton');
 
@@ -161,22 +163,22 @@ document.addEventListener('DOMContentLoaded', function () {
     // Check if the user entered valid title, date, and time
     if (updatedTitle && updatedStartDate && updatedStartTime && updatedEndDate && updatedEndTime) {
       // Combine start date and time into a single string in ISO format
-      var updatedStartDateTime = updatedStartDate + 'T' + updatedStartTime + ':00';
+      var updatedStartDateTime = new Date(updatedStartDate + 'T' + updatedStartTime + ':00').toISOString();
 
       // Combine end date and time into a single string in ISO format
-      var updatedEndDateTime = updatedEndDate + 'T' + updatedEndTime + ':00';
+      var updatedEndDateTime = new Date(updatedEndDate + 'T' + updatedEndTime + ':00').toISOString();
 
       // Update the event on the calendar
-      info.event.setProp('title', updatedTitle);
-      info.event.setStart(updatedStartDateTime);
-      info.event.setEnd(updatedEndDateTime);
+      eventInfo.event.setProp('title', updatedTitle);
+      eventInfo.event.setStart(updatedStartDateTime);
+      eventInfo.event.setEnd(updatedEndDateTime);
 
       // Hide the edit event form after saving
       document.getElementById('editEventForm').style.display = 'none';
 
       // Send the updated event data to the server using a POST request
       var updatedEvent = {
-        id: info.event.id,
+        id: eventInfo.event.id,
         title: updatedTitle,
         start: updatedStartDateTime,
         end: updatedEndDateTime
@@ -191,7 +193,16 @@ document.addEventListener('DOMContentLoaded', function () {
       })
         .then(response => response.json())
         .then(data => {
-          console.log('Event updated successfully:', data);
+          if (data.message === 'Event data is incomplete') {
+            console.error('Event data is incomplete. The server did not update the event.');
+          } else {
+            // Update the event on the calendar with the updated data received from the server
+            eventInfo.event.setProp('title', data.updatedEvent.title);
+            eventInfo.event.setStart(data.updatedEvent.start);
+            eventInfo.event.setEnd(data.updatedEvent.end);
+    
+            console.log('Event updated successfully:', data);
+          }
         })
         .catch(error => console.error('Error updating event:', error));
     } else {
