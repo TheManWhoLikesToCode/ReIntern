@@ -138,15 +138,37 @@ document.addEventListener('DOMContentLoaded', function () {
   function showEditForm(event) {
     // Set the current event data in the form fields
     document.getElementById('editEventTitle').value = event.title;
-    document.getElementById('editEventStartDate').value = event.start;
-    document.getElementById('editEventStartTime').value = event.startStr.slice(11, 16);
-    document.getElementById('editEventEndDate').value = event.end;
-    document.getElementById('editEventEndTime').value = event.endStr.slice(11, 16);
+    document.getElementById('editEventStartDate').value = formatDateForInput(event.start);
+    document.getElementById('editEventStartTime').value = formatTimeForInput(event.start);
+    document.getElementById('editEventEndDate').value = formatDateForInput(event.end);
+    document.getElementById('editEventEndTime').value = formatTimeForInput(event.end);
 
     // Show the edit event form
     document.getElementById('editEventForm').style.display = 'block';
   }
 
+  // Helper function to format the date for the input field in "mm/dd/yyyy" format
+  function formatDateForInput(dateStr) {
+    const dateObj = new Date(dateStr);
+    const month = String(dateObj.getMonth() + 1).padStart(2, '0');
+    const day = String(dateObj.getDate()).padStart(2, '0');
+    const year = dateObj.getFullYear();
+    return `${month}/${day}/${year}`;
+  }
+
+  // Helper function to format the time for the input field (HH:mm format)
+  function formatTimeForInput(dateStr) {
+    const dateObj = new Date(dateStr);
+    const hours = String(dateObj.getHours()).padStart(2, '0');
+    const minutes = String(dateObj.getMinutes()).padStart(2, '0');
+    return `${hours}:${minutes}`;
+  }
+
+  // Helper function to format the date and time for the server in ISO format
+  function formatDateTimeForServer(dateStr) {
+    const dateObj = new Date(dateStr);
+    return dateObj.toISOString();
+  }
 
   // Get the "Save" button element from the edit event form
   var editEventSaveButton = document.getElementById('editEventButton');
@@ -159,31 +181,31 @@ document.addEventListener('DOMContentLoaded', function () {
     var updatedStartTime = document.getElementById('editEventStartTime').value;
     var updatedEndDate = document.getElementById('editEventEndDate').value;
     var updatedEndTime = document.getElementById('editEventEndTime').value;
-
+  
     // Check if the user entered valid title, date, and time
     if (updatedTitle && updatedStartDate && updatedStartTime && updatedEndDate && updatedEndTime) {
       // Combine start date and time into a single string in ISO format
-      var updatedStartDateTime = new Date(updatedStartDate + 'T' + updatedStartTime + ':00').toISOString();
-
+      var updatedStartDateTime = updatedStartDate + 'T' + updatedStartTime + ':00';
+  
       // Combine end date and time into a single string in ISO format
-      var updatedEndDateTime = new Date(updatedEndDate + 'T' + updatedEndTime + ':00').toISOString();
-
+      var updatedEndDateTime = updatedEndDate + 'T' + updatedEndTime + ':00';
+  
       // Update the event on the calendar
       eventInfo.event.setProp('title', updatedTitle);
       eventInfo.event.setStart(updatedStartDateTime);
       eventInfo.event.setEnd(updatedEndDateTime);
-
+  
       // Hide the edit event form after saving
       document.getElementById('editEventForm').style.display = 'none';
-
+  
       // Send the updated event data to the server using a POST request
       var updatedEvent = {
-        id: eventInfo.event.id,
+        id: eventInfo.event.id, // Use eventInfo to access the clicked event's information
         title: updatedTitle,
-        start: updatedStartDateTime,
-        end: updatedEndDateTime
+        start: formatDateTimeForServer(updatedStartDateTime),
+        end: formatDateTimeForServer(updatedEndDateTime)
       };
-
+  
       fetch('/update_event', {
         method: 'POST',
         headers: {
@@ -196,11 +218,6 @@ document.addEventListener('DOMContentLoaded', function () {
           if (data.message === 'Event data is incomplete') {
             console.error('Event data is incomplete. The server did not update the event.');
           } else {
-            // Update the event on the calendar with the updated data received from the server
-            eventInfo.event.setProp('title', data.updatedEvent.title);
-            eventInfo.event.setStart(data.updatedEvent.start);
-            eventInfo.event.setEnd(data.updatedEvent.end);
-    
             console.log('Event updated successfully:', data);
           }
         })
