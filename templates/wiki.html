@@ -1,8 +1,151 @@
 {% extends 'layout_two.html' %}
 {% block content %}
 
+<!DOCTYPE html>
 <div class="wiki_page">
-    <h1> Wiki </h1>
-</div>
 
-{% endblock content %}
+</div>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Intern Wiki</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      margin: 20px;
+    }
+
+    h1 {
+      color: #140F3A;
+    }
+    h2, h3 {
+      color: #27A9DC;
+    }
+    h1 {
+      margin-bottom: 40px;
+      border-bottom: 2px solid #27A9DC;
+    }
+    h2 {
+      margin-top: 30px;
+      margin-bottom: 10px;
+    }
+    p {
+      margin-bottom: 15px;
+    }
+    ul {
+      margin-left: 30px;
+      margin-bottom: 15px;
+    }
+
+    /* Scroll to top button style */
+    #scroll-to-top-btn {
+      display: none;
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 40px;
+      height: 40px;
+      border: none;
+      background-color: #27A9DC;
+      color: #fff;
+      border-radius: 50%;
+      font-size: 18px;
+      cursor: pointer;
+    }
+
+    /* Show button when scrolling down */
+    #scroll-to-top-btn.show {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+    <!-- Add the button here -->
+  <button id="scroll-to-top-btn" onclick="scrollToTop()">&#8679;</button>
+
+  <h1>Intern Wiki — Key Terms</h1>
+  <h2>Coffee Chat</h2>
+  <p>A coffee chat is an informal and casual meeting between two individuals, typically over a cup of coffee (or any preferred beverage), to have a relaxed conversation and exchange ideas. In a professional context, it is often used as a networking tool to build connections, gain insights, and seek advice from more experienced professionals.
+
+    To set up a coffee chat, an intern doing a tech internship can reach out to a mentor, a senior colleague, or someone they admire in the industry. A simple message example could be:
+    <br>
+    <br>
+    "Hi [Name],
+    
+    I hope this message finds you well. My name is [Your Name], and I am currently interning as a tech enthusiast at [Company/Organization]. I have been following your work and find it truly inspiring. I was wondering if you would be open to a coffee chat sometime in the next few weeks. I would love to learn more about your experiences in the tech industry and gain some valuable insights. Please let me know if you're available, and we can find a convenient time and place to meet.
+    
+    Thank you for considering my request, and I look forward to hearing from you.
+    
+    Best regards,
+    [Your Name]"
+    <br>
+    <br>
+    Coffee chats hold great importance for interns in a tech internship for several reasons. Firstly, they provide an opportunity to learn from experienced professionals, gaining industry-specific knowledge and practical advice that might not be covered in formal training programs. Secondly, these informal meetings help in building relationships and expanding their professional network, which can be valuable for future career growth and potential job opportunities. Lastly, engaging in coffee chats allows interns to showcase their enthusiasm, curiosity, and willingness to learn, leaving a positive impression on the person they are meeting with, which could lead to mentorship or even potential collaborations in the future.</p>
+
+  <h2>Brag Sheet</h2>
+  <p> A brag sheet, also known as a brag document or personal achievements sheet, is a concise summary of an individual's accomplishments, skills, and experiences. It serves as a self-promotional tool to showcase their strengths and contributions in various areas. A typical brag sheet includes academic achievements, extracurricular activities, volunteer work, internships, and any other noteworthy accomplishments. For example, a tech intern's brag sheet might list their successful completion of coding projects, participation in hackathons, relevant coursework, and contributions to the team's development efforts.
+<br>
+<br>
+  ReIntern is a platform that automates the process of creating a brag sheet for individuals, making it easier for tech interns to compile and present their achievements in a well-structured manner. This tool is crucial for interns in a tech internship because it allows them to effectively communicate their value to potential employers and mentors. By showcasing their skills and accomplishments, a brag sheet enables interns to stand out and demonstrate their potential for growth and success in the tech industry. It ensures that their efforts and abilities are recognized and appreciated, ultimately enhancing their chances of securing future opportunities and advancing their careers. </p>
+  <h2>Midpoint Review</h2>
+  <p>A midpoint review in the context of a tech internship refers to a structured evaluation and assessment that takes place around the halfway mark of the internship duration. It serves as a checkpoint to gauge the intern's progress, performance, and overall integration into the company's culture and projects. During the midpoint review, the intern and their supervisor or mentor come together to discuss the intern's achievements, areas of improvement, and alignment with the internship objectives.
+    <br>
+    <br>
+    For example, let's consider an intern who is working on a software development project. At the midpoint review, the intern and their supervisor would discuss the code contributions made so far, any challenges faced, and the skills they have developed. The supervisor might also provide constructive feedback and guidance on enhancing their programming abilities.
+    <br>
+    <br>
+    Interns can expect a supportive and open environment during the midpoint review. It is an opportunity for them to gain valuable insights into their performance, receive feedback, and set goals for the remainder of the internship. Moreover, interns can use this occasion to ask questions, seek clarification on tasks, and learn more about the company's expectations.
+    The midpoint review holds significant importance for an intern in a tech internship. It not only provides them with a chance to track their progress and receive constructive feedback but also allows them to demonstrate their dedication and commitment to the role. By taking the review seriously and acting upon the feedback received, the intern can showcase their adaptability and eagerness to learn and grow, potentially leading to better chances of future opportunities within the company or securing strong references for future endeavors. Ultimately, the midpoint review is a pivotal moment for both the intern and the company, fostering a positive and mutually beneficial working relationship.</p>
+
+  <h2>Final Review</h2>
+  <p>A final performance review is an evaluation conducted at the end of a specific period, usually at the conclusion of a project, an internship, or an employment contract. During this review, an individual's performance, achievements, and growth are assessed to provide feedback and determine their overall effectiveness in meeting goals and expectations. For an intern in a tech internship, the final performance review is a crucial step in assessing their contributions, skills development, and suitability for potential future opportunities within the organization or in the industry.
+    <br>
+    <br>
+    For example, let's consider an intern who completed a 12-week tech internship as a software developer at a tech company. During the final performance review, the intern's manager and mentor would analyze the quality of their code contributions, their ability to work within a team, problem-solving skills, adaptability to new technologies, and how well they met project deadlines. The review would likely involve a detailed discussion about specific projects and tasks the intern worked on, highlighting areas of excellence and areas for improvement.
+    <br>
+    <br>
+    As an intern, one can expect both positive feedback on their accomplishments and constructive criticism on areas where they can further enhance their skills. The review might also include suggestions for future growth and potential career paths within the company. It provides interns with valuable insights into their performance and helps them understand their strengths and weaknesses, fostering a continuous learning mindset.
+    <br>
+    <br>
+    The importance of a final performance review for an intern in a tech internship lies in several aspects. Firstly, it helps interns gauge their professional growth and identify areas that need improvement, setting a solid foundation for their future career endeavors. Secondly, the review can serve as a reference for the intern's overall performance, which could be shared with potential employers for future job opportunities. Additionally, the feedback received during the review can aid interns in shaping their career goals and making informed decisions about their next steps in the tech industry. Lastly, a positive performance review might open doors to potential full-time employment offers or recommendations for other opportunities within the organization or the tech field, establishing valuable connections for the intern's professional journey.</p>
+
+  <h2>Important Tips</h2>
+  <ul>
+    <li>Always be proactive and take initiative in your work.</li>
+    <li>Seek feedback regularly to improve your performance.</li>
+    <li>Network with colleagues and attend company events.</li>
+    <li>Maintain a positive and professional attitude.</li>
+    <li>Ask questions and show curiosity to learn more.</li>
+    <li>Meet deadlines and communicate proactively if you encounter challenges.</li>
+    <li>Keep a record of your accomplishments using a brag sheet.</li>
+    <li>Respect company policies and maintain confidentiality.</li>
+    <li>Express gratitude to those who help and support you during your internship.</li>
+  </ul>
+
+  <script>
+    // Function to scroll to the top of the page
+    function scrollToTop() {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    }
+
+    // Show/hide button based on scrolling
+    window.addEventListener('scroll', function() {
+      var button = document.getElementById('scroll-to-top-btn');
+      if (window.pageYOffset > 100) {
+        button.classList.add('show');
+      } else {
+        button.classList.remove('show');
+      }
+    });
+  </script>
+
+  <!-- Add more sections as needed for other important topics -->
+
+</body>
+</html>
+{% endblock %}
