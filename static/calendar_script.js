@@ -145,4 +145,57 @@ document.addEventListener('DOMContentLoaded', function () {
     // Show the edit event form
     document.getElementById('editEventForm').style.display = 'block';
   }
+  // Get the "Save" button element from the edit event form
+var editEventSaveButton = document.getElementById('editEventButton');
+
+// Add an event listener to the "Save" button
+editEventSaveButton.addEventListener('click', function () {
+  // Get the updated values from the edit event form
+  var updatedTitle = document.getElementById('editEventTitle').value;
+  var updatedStartDate = document.getElementById('editEventStartDate').value;
+  var updatedStartTime = document.getElementById('editEventStartTime').value;
+  var updatedEndDate = document.getElementById('editEventEndDate').value;
+  var updatedEndTime = document.getElementById('editEventEndTime').value;
+
+  // Check if the user entered valid title, date, and time
+  if (updatedTitle && updatedStartDate && updatedStartTime && updatedEndDate && updatedEndTime) {
+    // Combine start date and time into a single string in ISO format
+    var updatedStartDateTime = updatedStartDate + 'T' + updatedStartTime + ':00';
+
+    // Combine end date and time into a single string in ISO format
+    var updatedEndDateTime = updatedEndDate + 'T' + updatedEndTime + ':00';
+
+    // Update the event on the calendar
+    info.event.setProp('title', updatedTitle);
+    info.event.setStart(updatedStartDateTime);
+    info.event.setEnd(updatedEndDateTime);
+
+    // Hide the edit event form after saving
+    document.getElementById('editEventForm').style.display = 'none';
+
+    // Send the updated event data to the server using a POST request
+    var updatedEvent = {
+      id: info.event.id,
+      title: updatedTitle,
+      start: updatedStartDateTime,
+      end: updatedEndDateTime
+    };
+
+    fetch('/update_event', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(updatedEvent)
+    })
+      .then(response => response.json())
+      .then(data => {
+        console.log('Event updated successfully:', data);
+      })
+      .catch(error => console.error('Error updating event:', error));
+  } else {
+    alert('Invalid input. Please fill in all fields.');
+  }
+});
+
 });
