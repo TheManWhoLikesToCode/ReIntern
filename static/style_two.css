@@ -6,13 +6,63 @@ body {
   height: 100vh;
   width: 100%;
   font-family: Arial, sans-serif;
-  background-color: #f4f4f4;
+  background-color: #cccacb;
   background-size: cover;
   background-position: center;
 }
 
+.main_video {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  object-fit: cover;
+}
 .link_no_decoration {
   text-decoration: none;
+  color: inherit;
+}
+
+.light_text {
+  color: white;
+}
+
+.btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  background-color: #16191c;
+  color: white;
+  font-size: 1em;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 10px;
+}
+
+/* Navigation Bar Styles */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #16191c;
+}
+
+.navbar .navbar-brand {
+  color: white;
+  font-size: 2em;
+  font-weight: bold;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.navbar .btn {
+  margin-left: 10px;
+}
+
+.navbar .btn:hover {
+  background-color: #4b535a;
 }
 
 .light_text {
@@ -62,14 +112,35 @@ li {
 
 /* Page Specific Styles */
 
-/* Results Page */
+/* results Page */
+
 .results_page {
+  width: 100%;
+  background-color: #cccacb;
   display: flex;
   flex-direction: column;
   align-items: center;
+  background-color: transparent;
+}
+
+.countdown {
+  font-size: 2em;
+  color: #16191c; /* changed color to match button background */
+  border: 2px solid #16191c; /* changed color to match button background */
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.center_object {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 /* Dashboard Page */
+
 .dashboard_page {
   margin: 5%;
   margin-bottom: 10%;
@@ -80,11 +151,11 @@ li {
 
 .box {
   min-width: 80vw;
-  margin: auto;
+  margin: 30px;
   padding: 20px;
   background-color: #e5e5e5;
   border-radius: 10px;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 50px 50px 50px rgba(0, 0, 0, 0.15);
 }
 
 .task-container {
@@ -143,16 +214,6 @@ h3 {
   color: #333;
 }
 
-.countdown {
-  font-size: 2em;
-  color: #16191c; /* changed color to match button background */
-  border: 2px solid #16191c; /* changed color to match button background */
-  padding: 10px;
-  border-radius: 5px;
-  margin-bottom: 20px;
-  text-align: center;
-}
-
 input[type="text"],
 input[type="date"] {
   padding: 10px;
@@ -191,6 +252,72 @@ input[type="date"] {
 /* Settings Page */
 .settings_page {
   margin: 2%;
+  text-align: center;
+}
+
+/* Spinning Animation */
+
+.spinner {
+  margin: 100px auto;
+  width: 40px;
+  height: 40px;
+  position: relative;
+}
+
+.cube1, .cube2 {
+  background-color: #3498db;
+  width: 15px;
+  height: 15px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  
+  -webkit-animation: sk-cubemove 1.8s infinite ease-in-out;
+  animation: sk-cubemove 1.8s infinite ease-in-out;
+}
+
+.cube2 {
+  -webkit-animation-delay: -0.9s;
+  animation-delay: -0.9s;
+}
+
+@-webkit-keyframes sk-cubemove {
+  25% { -webkit-transform: translateX(42px) rotate(-90deg) scale(0.5) }
+  50% { -webkit-transform: translateX(42px) translateY(42px) rotate(-180deg) }
+  75% { -webkit-transform: translateX(0px) translateY(42px) rotate(-270deg) scale(0.5) }
+  100% { -webkit-transform: rotate(-360deg) }
+}
+
+@keyframes sk-cubemove {
+  25% { 
+    transform: translateX(42px) rotate(-90deg) scale(0.5);
+    -webkit-transform: translateX(42px) rotate(-90deg) scale(0.5);
+  } 50% { 
+    transform: translateX(42px) translateY(42px) rotate(-179deg);
+    -webkit-transform: translateX(42px) translateY(42px) rotate(-179deg);
+  } 50.1% { 
+    transform: translateX(42px) translateY(42px) rotate(-180deg);
+    -webkit-transform: translateX(42px) translateY(42px) rotate(-180deg);
+  } 75% { 
+    transform: translateX(0px) translateY(42px) rotate(-270deg) scale(0.5);
+    -webkit-transform: translateX(0px) translateY(42px) rotate(-270deg) scale(0.5);
+  } 100% { 
+    transform: rotate(-360deg);
+    -webkit-transform: rotate(-360deg);
+  }
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
 }
 
 /* Media Queries */

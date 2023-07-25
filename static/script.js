@@ -1,4 +1,6 @@
 function generateEmail() {
+  document.getElementById("loadingOverlay").style.display = "flex"; // Show overlay and spinner
+
   const summary = document.getElementById("emailContent").innerText;
   fetch("/generate_email", {
     method: "POST",
@@ -20,10 +22,15 @@ function generateEmail() {
     })
     .catch((error) => {
       alert("There was a problem with the fetch operation: " + error.message);
+    })
+    .finally(() => {
+      document.getElementById("loadingOverlay").style.display = "none"; // Hide overlay and spinner
     });
 }
 
 function generateSummary() {
+  document.getElementById("loadingOverlay").style.display = "flex"; // Show overlay and spinner
+
   const startDate = document.getElementById("startDate").value;
   const endDate = document.getElementById("endDate").value;
   fetch("/generateSummary", {
@@ -46,8 +53,13 @@ function generateSummary() {
     })
     .catch((error) => {
       alert("There was a problem with the fetch operation: " + error.message);
+    })
+    .finally(() => {
+      document.getElementById("loadingOverlay").style.display = "none"; // Hide overlay and spinner
     });
 }
+
+// ... rest of your JavaScript code ...
 
 function addTask() {
   const task = document.getElementById("newTask").value;
