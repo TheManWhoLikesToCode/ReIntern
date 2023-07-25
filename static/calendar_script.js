@@ -23,40 +23,40 @@ document.addEventListener('DOMContentLoaded', function () {
         // Hide the options box after clicking "Edit"
         optionsContainer.style.display = 'none';
       });
-
       var deleteButton = document.createElement('button');
       deleteButton.textContent = 'Delete';
       deleteButton.addEventListener('click', function () {
-        // Inside the eventClick function, add this line to make 'info' available in the scope
-        var eventToDelete = calendar.getEventById(info.event.id);
-
-        // Delete the event from the calendar
-        console.log('Event ID to be deleted:', eventToDelete.id); // Add this line to check the event ID
-        eventToDelete.remove();
-
-        // Check if the event has a valid ID before making the DELETE request
-        if (eventToDelete.id) {
-          // Make a DELETE request to the server to remove the event
-          fetch('/delete_event', {
-            method: 'DELETE',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ id: eventToDelete.id }) // Pass the event ID in the request body
-          })
-            .then(response => response.json())
-            .then(data => {
-              console.log('Response from server:', data); // Add this line to see the response from the server
-              console.log('Event deleted successfully:', data);
-            })
-            .catch(error => console.error('Error deleting event:', error));
-        } else {
-          console.error('Event ID is missing or invalid.');
-        }
-
-        // Hide the options box after clicking "Delete"
-        optionsContainer.style.display = 'none';
+          // Inside the eventClick function, add this line to make 'info' available in the scope
+          var eventToDelete = calendar.getEventById(info.event.id);
+      
+          // Delete the event from the calendar
+          console.log('Event ID to be deleted:', eventToDelete.id); // Add this line to check the event ID
+          eventToDelete.remove();
+      
+          // Check if the event has a valid ID before making the DELETE request
+          if (eventToDelete.id) {
+              // Make a DELETE request to the server to remove the event
+              fetch('/delete_event', {
+                  method: 'DELETE',
+                  headers: {
+                      'Content-Type': 'application/json'
+                  },
+                  body: JSON.stringify({ id: eventToDelete.id }) // Pass the event ID in the request body
+              })
+              .then(response => response.json())
+              .then(data => {
+                  console.log('Response from server:', data); // Add this line to see the response from the server
+                  console.log('Event deleted successfully:', data);
+              })
+              .catch(error => console.error('Error deleting event:', error));
+          } else {
+              console.error('Event ID is missing or invalid.');
+          }
+      
+          // Hide the options box after clicking "Delete"
+          optionsContainer.style.display = 'none';
       });
+      
 
       // Append the buttons to the options container
       optionsContainer.appendChild(editButton);

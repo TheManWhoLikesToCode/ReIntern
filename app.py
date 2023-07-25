@@ -185,6 +185,7 @@ def get_events():
         return jsonify({'error': 'User not logged in'})
 
 from datetime import datetime
+
 @app.route('/update_event', methods=['POST'])
 def update_event():
     try:
@@ -219,14 +220,15 @@ def update_event():
             return jsonify({'message': 'Event updated successfully',
                             'updateEvent': {
                                 'title': event.title,
-                                'start': event.start_date.strftime('%Y-%m-%d %H:%M:%S'),
-                                'end': event.end_date.strftime('%Y-%m-%d %H:%M:%S')
+                                'start': event.start_date.strftime('%m/%d/%Y %H:%M:%S'),
+                                'end': event.end_date.strftime('%m/%d/%Y %H:%M:%S')
                             }})
         else:
             return jsonify({'error': 'User not logged in'}), 401
 
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+
 
             
 
