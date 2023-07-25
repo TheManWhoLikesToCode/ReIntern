@@ -6,7 +6,7 @@ from langchain.llms.base import LLM
 from typing import Optional, List, Mapping, Any
 
 
-class BingChat(LLM):
+class BingChatAPI(LLM):
 
     history_data: Optional[List] = []
     cookiepath: Optional[str]

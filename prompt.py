@@ -1,7 +1,7 @@
 # Author: Jaydin F
 # Date: 7/19/2023
 # Purpose: Query openLLM models like GPT-3
-from BingChatAPI import BingChat
+from BingChatAPI import BingChatAPI
 
 
 def query_llm(prompt):
