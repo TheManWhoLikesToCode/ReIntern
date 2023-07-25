@@ -5,15 +5,11 @@
 from flask import Flask, render_template, redirect, url_for, flash, request, session, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
-from flask_behind_proxy import FlaskBehindProxy
-from flask_login import LoginManager, UserMixin, login_user, login_required, current_user,logout_user
+from flask_login import LoginManager
 from werkzeug.security import generate_password_hash, check_password_hash
 from prompt import generate_brag_sheet, generate_weekly_email
-import git
-import threading
 import logging
 from datetime import datetime, timedelta
-from forms import RegistrationForm, LoginForm
 
 
 app = Flask(__name__)
@@ -21,13 +17,6 @@ app.config['SECRET_KEY'] = 'your secret key'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
-
-
-login_manager = LoginManager(app)
-login_manager.login_view = 'login'  # Specify the login view route name
-@login_manager.user_loader
-def load_user(user_id):
-    return User.query.get(int(user_id))
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
