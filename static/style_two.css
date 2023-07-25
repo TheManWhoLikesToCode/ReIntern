@@ -6,7 +6,7 @@ body {
   height: 100vh;
   width: 100%;
   font-family: Arial, sans-serif;
-  background-color: #f4f4f4;
+  background-color: #CCCACB;
   background-size: cover;
   background-position: center;
 }
@@ -62,14 +62,34 @@ li {
 
 /* Page Specific Styles */
 
-/* Results Page */
+/* Index Page */
+
 .results_page {
+  width: 100%;
+  background-color: #CCCACB;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
+.countdown {
+  font-size: 2em;
+  color: #16191c; /* changed color to match button background */
+  border: 2px solid #16191c; /* changed color to match button background */
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.center_object{
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 /* Dashboard Page */
+
 .dashboard_page {
   margin: 5%;
   margin-bottom: 10%;
@@ -84,7 +104,7 @@ li {
   padding: 20px;
   background-color: #e5e5e5;
   border-radius: 10px;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 50px 50px 50px rgba(0, 0, 0, 0.15);
 }
 
 .task-container {
@@ -143,16 +163,6 @@ h3 {
   color: #333;
 }
 
-.countdown {
-  font-size: 2em;
-  color: #16191c; /* changed color to match button background */
-  border: 2px solid #16191c; /* changed color to match button background */
-  padding: 10px;
-  border-radius: 5px;
-  margin-bottom: 20px;
-  text-align: center;
-}
-
 input[type="text"],
 input[type="date"] {
   padding: 10px;
@@ -191,6 +201,7 @@ input[type="date"] {
 /* Settings Page */
 .settings_page {
   margin: 2%;
+  text-align: center;
 }
 
 /* Media Queries */
