@@ -1,20 +1,16 @@
-##Author: Jaydin F.
-##Edited by: Axel C.
-##Date: 7/19/2023
+# Author: Jaydin F.
+# Edited by: Axel C.
+# Date: 7/19/2023
 
 from flask import Flask, render_template, redirect, url_for, flash, request, session, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
-from flask_behind_proxy import FlaskBehindProxy
-from flask_login import LoginManager, UserMixin, login_user, login_required, current_user,logout_user
+from flask_login import LoginManager
 from werkzeug.security import generate_password_hash, check_password_hash
 from prompt import generate_brag_sheet, generate_weekly_email
-import git
-import threading
 import logging
+from days_until import calculate_days_until_friday
 from datetime import datetime, timedelta
-from forms import RegistrationForm, LoginForm
-
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'your secret key'
@@ -23,24 +19,20 @@ db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
 
-login_manager = LoginManager(app)
-login_manager.login_view = 'login'  # Specify the login view route name
-@login_manager.user_loader
-def load_user(user_id):
-    return User.query.get(int(user_id))
-
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), nullable=False)
     password = db.Column(db.String(255), nullable=False)
     email = db.Column(db.String(100), nullable=False, unique=True)
 
+
 class Event(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(100), nullable=False)
     start_date = db.Column(db.DateTime, nullable=False)
     end_date = db.Column(db.DateTime, nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False) 
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+
 
 class Task(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -159,7 +151,8 @@ def add_event():
             user_id = session['id']
 
             # Create a new event entry in the database associated with the user
-            new_event = Event(title=title, start_date=start, end_date=end, user_id=user_id)
+            new_event = Event(title=title, start_date=start,
+                              end_date=end, user_id=user_id)
             db.session.add(new_event)
             db.session.commit()
 
@@ -168,7 +161,6 @@ def add_event():
             return jsonify({'error': 'User not logged in'}), 401
     except Exception as e:
         return jsonify({'error': str(e)}), 500
-
 
 
 @app.route('/get_events', methods=['GET'])
@@ -250,8 +242,11 @@ def result():
         # Retrieve tasks from the database for the logged-in user
         tasks = Task.query.filter_by(user_id=user_id).all()
 
-        # Pass the tasks to the template
-        return render_template('index.html', name=name, tasks=tasks)
+        # Calculate days until Friday
+        days_until_friday = calculate_days_until_friday()
+
+        # Pass the tasks and days_until_friday to the template
+        return render_template('index.html', name=name, tasks=tasks, days_until_friday=days_until_friday)
     else:
         return redirect(url_for('login'))
 

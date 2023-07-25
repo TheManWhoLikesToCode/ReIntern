@@ -141,6 +141,8 @@ form {
   border: 1px solid #ccc;
 }
 
+/* Results Page */
+
 .results_page {
   margin: 5%;
   display: flex;
