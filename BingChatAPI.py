@@ -1,4 +1,4 @@
-from EdgeGPT.EdgeGPT import Chatbot, ConversationStyle
+from EdgeGPT import Chatbot, ConversationStyle
 import asyncio
 from langchain.llms.base import LLM
 from typing import Optional, List, Mapping, Any

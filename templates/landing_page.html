@@ -22,18 +22,18 @@
 
 <!-- Scroll Page -->
 
-<div class="scroll_up" style="padding-bottom: 100px;">
+<div class="scroll_up">
     <div class="question_statement">
         <h2> Who are we? </h2>
         <p> We are ReIntern! Through the power of AI, we strive to make internships more efficient for our users. </p>
     </div>
 
     <div class="row">
-        <div class="col-md-6">
-            <h1 style="text-align: center;"> Just input your completed tasks: </h1>
+        <div class="col-md-6 text-container">
+            <h1> Just input your completed tasks: </h1>
         </div>
 
-        <div class="col-md-6">
+        <div class="col-md-6 video-container">
             <video muted autoplay loop width="100%">
                 <source src={{ url_for("static", filename="../static/tut_video_one.mp4") }} type="video/mp4" autoplay='autoplay' autoplay> </source>
             </video>
@@ -46,14 +46,14 @@
 
     <div class="row" style="margin-top: 150px;">
 
-        <div class="col-md-6">
+        <div class="col-md-6 video-container">
             <video muted autoplay loop width="100%">
                 <source src={{ url_for("static", filename="../static/tut_video_two.mp4") }} type="video/mp4" autoplay='autoplay' autoplay> </source>
             </video>
         </div>
 
-        <div class="col-md-6">
-            <h1 style="text-align: center;"> And we generate a weekly email for you: </h1>
+        <div class="col-md-6 text-container">
+            <h1> And we generate a weekly email for you: </h1>
         </div>
     </div>
 
@@ -63,16 +63,15 @@
     <!-- Tutorial Video Three -->
 
     <div class="row" style="margin-top: 150px;">
-        <div class="col-md-6">
-            <h1 style="text-align: center;"> Or even a brag sheet! </h1>
+        <div class="col-md-6 text-container">
+            <h1> Or even a brag sheet! </h1>
         </div>
 
-        <div class="col-md-6">
+        <div class="col-md-6 video-container">
             <video muted autoplay loop width="100%">
                 <source src={{ url_for("static", filename="../static/tut_video_three.mp4") }} type="video/mp4" autoplay='autoplay' autoplay> </source>
             </video>
         </div>
-
     </div>
 </div>
 
