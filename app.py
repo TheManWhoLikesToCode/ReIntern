@@ -176,6 +176,7 @@ def get_events():
         event_list = []
         for event in events:
             event_list.append({
+                'id': event.id,
                 'title': event.title,
                 'start': event.start_date.strftime('%Y-%m-%d %H:%M:%S'),
                 'end': event.end_date.strftime('%Y-%m-%d %H:%M:%S')
@@ -198,9 +199,9 @@ def update_event():
         if not event_id or not title or not start_str or not end_str:
             return jsonify({'message': 'Event data is incomplete'}), 400
 
-        # Parse the date strings into Python datetime objects (using "mm/dd/yyyy" format)
-        start = datetime.strptime(start_str, '%m/%d/%Y')
-        end = datetime.strptime(end_str, '%m/%d/%Y')
+        # Parse the date strings into Python datetime objects (using "YYYY-MM-DD HH:MM:SS" format)
+        start = datetime.strptime(start_str, '%Y-%m-%d %H:%M:%S')
+        end = datetime.strptime(end_str, '%Y-%m-%d %H:%M:%S')
 
         # Check if the user is logged in
         if 'loggedin' in session:
@@ -220,14 +221,15 @@ def update_event():
             return jsonify({'message': 'Event updated successfully',
                             'updateEvent': {
                                 'title': event.title,
-                                'start': event.start_date.strftime('%m/%d/%Y %H:%M:%S'),
-                                'end': event.end_date.strftime('%m/%d/%Y %H:%M:%S')
+                                'start': event.start_date.strftime('%Y-%m-%d %H:%M:%S'),
+                                'end': event.end_date.strftime('%Y-%m-%d %H:%M:%S')
                             }})
         else:
             return jsonify({'error': 'User not logged in'}), 401
 
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+
 
 
             
@@ -258,7 +260,6 @@ def delete_event():
         return jsonify({'message': 'Event deleted successfully'})
     except Exception as e:
         return jsonify({'error': str(e)}), 500
-
 
 
 
