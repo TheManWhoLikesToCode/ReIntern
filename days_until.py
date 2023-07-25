@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta
+from datetime import datetime
 
 def calculate_days_until_friday():
     today = datetime.today().weekday()
