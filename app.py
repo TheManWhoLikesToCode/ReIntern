@@ -115,7 +115,7 @@ def register():
     if request.method == 'POST':
         name = request.form.get('name')
         password = generate_password_hash(
-            request.form.get('password'), method='sha256')
+            request.form.get('password'), method='scrypt')
         email = request.form.get('email')
         # Added print statement
         print(f"Attempting to register with email: {email}, name: {name}")
