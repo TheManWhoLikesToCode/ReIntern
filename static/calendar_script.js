@@ -175,10 +175,12 @@ deleteButton.addEventListener('click', function () {
     return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
   }
   
-  
 
   // Get the "Save" button element from the edit event form
   var editEventSaveButton = document.getElementById('editEventButton');
+  //Get the "Cancel" button element from the edit event form 
+  var editEventCancelButton = document.getElementById('editEventCancelButton');
+
 
   // Add an event listener to the "Save" button
   editEventSaveButton.addEventListener('click', function () {
@@ -188,6 +190,8 @@ deleteButton.addEventListener('click', function () {
     var updatedStartTime = document.getElementById('editEventStartTime').value;
     var updatedEndDate = document.getElementById('editEventEndDate').value;
     var updatedEndTime = document.getElementById('editEventEndTime').value;
+
+  
   
     // Check if the user entered valid title, date, and time
     if (updatedTitle && updatedStartDate && updatedStartTime && updatedEndDate && updatedEndTime) {
@@ -233,4 +237,8 @@ deleteButton.addEventListener('click', function () {
       alert('Invalid input. Please fill in all fields.');
     }
   });
+  editEventCancelButton.addEventListener('click', function() {
+    document.getElementById('editEventForm').style.display = 'none';
+});
+
 });

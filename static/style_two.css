@@ -309,6 +309,43 @@ input[type="text"]:focus {
   background-color: #2980b9; /* Darker on hover */
 }
 
+#editEventForm {
+  border: 1px solid #ccc;
+  padding: 20px;
+  margin: 20px auto;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1); /* Less intense shadow */
+  max-width: 900px;
+}
+#editEventButton {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  background-color: #3498db; /* Brighter color */
+  color: white;
+  font-size: 1em;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+#editEventCancelButton {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  background-color: #3498db; /* Brighter color */
+  color: white;
+  font-size: 1em;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#editEventButton:hover {
+  background-color: #2980b9; /* Darker on hover */
+}
+#editEventCancelButton:hover {
+  background-color: #2980b9; /* Darker on hover */
+}
+
 /* Wiki Page Styles */
 .wiki_page {
   margin: 5%;
