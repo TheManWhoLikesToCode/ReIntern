@@ -345,6 +345,35 @@ input[type="text"]:focus {
 #editEventCancelButton:hover {
   background-color: #2980b9; /* Darker on hover */
 }
+.calendar-button {
+  padding: 10px 15px;
+  margin: 5px;
+  border: none;
+  border-radius: 4px;
+  background-color: #007BFF;
+  color: #ffffff;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.calendar-button:hover {
+  background-color: #0056b3;
+}
+
+.calendar-button.delete {
+  background-color: #dc3545;
+}
+
+.calendar-button.delete:hover {
+  background-color: #c82333;
+}
+
+#optionsContainer {
+  position: absolute;
+  top: 50%;  /* adjust as needed */
+  left: 25%;
+  transform: translate(-50%, -50%);  /* this centers the container horizontally */
+}
 
 /* Wiki Page Styles */
 .wiki_page {

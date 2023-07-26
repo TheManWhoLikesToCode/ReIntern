@@ -17,6 +17,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
       var editButton = document.createElement('button');
       editButton.textContent = 'Edit';
+      editButton.classList.add('calendar-button');
       editButton.addEventListener('click', function () {
         // Edit the event
         showEditForm(info.event);
@@ -25,6 +26,7 @@ document.addEventListener('DOMContentLoaded', function () {
       });
 var deleteButton = document.createElement('button');
 deleteButton.textContent = 'Delete';
+deleteButton.classList.add('calendar-button', 'delete');
 deleteButton.addEventListener('click', function () {
     var eventToDelete = eventInfo.event; // Get the FullCalendar event directly from eventInfo
 
