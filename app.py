@@ -156,7 +156,8 @@ def add_event():
             db.session.add(new_event)
             db.session.commit()
 
-            return jsonify({'message': 'Event added successfully'})
+            # Return the ID of the newly created event
+            return jsonify({'id': new_event.id, 'message': 'Event added successfully'})
         else:
             return jsonify({'error': 'User not logged in'}), 401
     except Exception as e:
@@ -175,6 +176,7 @@ def get_events():
         event_list = []
         for event in events:
             event_list.append({
+                'id': event.id,
                 'title': event.title,
                 'start': event.start_date.strftime('%Y-%m-%d %H:%M:%S'),
                 'end': event.end_date.strftime('%Y-%m-%d %H:%M:%S')
@@ -182,6 +184,84 @@ def get_events():
         return jsonify(event_list)
     else:
         return jsonify({'error': 'User not logged in'})
+
+from datetime import datetime
+
+@app.route('/update_event', methods=['POST'])
+def update_event():
+    try:
+        data = request.get_json()
+        event_id = data.get('id')
+        title = data.get('title')
+        start_str = data.get('start')
+        end_str = data.get('end')
+
+        if not event_id or not title or not start_str or not end_str:
+            return jsonify({'message': 'Event data is incomplete'}), 400
+
+        # Parse the date strings into Python datetime objects (using "YYYY-MM-DD HH:MM:SS" format)
+        start = datetime.strptime(start_str, '%Y-%m-%d %H:%M:%S')
+        end = datetime.strptime(end_str, '%Y-%m-%d %H:%M:%S')
+
+        # Check if the user is logged in
+        if 'loggedin' in session:
+            user_id = session['id']
+
+            # Update the event entry in the database
+            event = Event.query.filter_by(id=event_id, user_id=user_id).first()
+            if not event:
+                return jsonify({'error': 'Event not found'}), 404
+
+            event.title = title
+            event.start_date = start
+            event.end_date = end
+
+            db.session.commit()
+
+            return jsonify({'message': 'Event updated successfully',
+                            'updateEvent': {
+                                'title': event.title,
+                                'start': event.start_date.strftime('%Y-%m-%d %H:%M:%S'),
+                                'end': event.end_date.strftime('%Y-%m-%d %H:%M:%S')
+                            }})
+        else:
+            return jsonify({'error': 'User not logged in'}), 401
+
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+
+            
+
+
+@app.route('/delete_event', methods=['DELETE'])
+def delete_event():
+    try:
+        data = request.get_json()
+        event_id = data.get('id')
+        if not event_id:
+            return jsonify({'message': 'Event ID not provided'}), 400
+
+        # Check if the user is logged in and the event belongs to the user
+        if 'loggedin' not in session:
+            return jsonify({'error': 'User not logged in'}), 401
+        user_id = session['id']
+
+        # Query the event by ID and user ID
+        event = Event.query.filter_by(id=event_id, user_id=user_id).first()
+        if not event:
+            return jsonify({'error': 'Event not found'}), 404
+
+        # Delete the event from the database
+        db.session.delete(event)
+        db.session.commit()
+
+        return jsonify({'message': 'Event deleted successfully'})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
 
 
 @app.route('/generate_email', methods=['POST'])
