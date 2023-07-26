@@ -4,11 +4,19 @@
 from BingChatAPI import BingChat
 
 
+import os
+
+
 def query_llm(prompt):
+    # Get the base directory
+    basedir = os.path.dirname(os.path.abspath(__file__))
+
+    # Construct the path to the cookiesBing.json file
+    cookie_path = os.path.join(basedir, 'cookiesBing.json')
+
     # Create an instance of BingChat
     # Options precise, creative or balaced
-    llm = BingChat(cookiepath="/Users/blackhat/Documents/GitHub/ReIntern/cookiesBing.json", conversation_style="precise")
-    
+    llm = BingChat(cookiepath=cookie_path, conversation_style="precise")
 
     # Query the LLM with the provided prompt
     response = llm(prompt)
@@ -91,24 +99,23 @@ def generate_brag_sheet(summary, name):
     # Return the brag sheet
     return '\n'.join(brag_sheet)
 
-
- #Example usage:
+ # Example usage:
 #   name = "Jaydin"
-#   
+#
 #   summary = """
 #   Monday: I started the week by attending a project kickoff meeting for a new client. I took detailed notes and was able to ask insightful questions about the client's needs.
-#   
+#
 #   Tuesday: I spent the day working on a data analysis task for the new project. I used Python and pandas to clean the data and generate preliminary insights.
-#   
+#
 #   Wednesday: I presented my initial findings to the project team. My clear communication and thorough analysis were appreciated by all team members.
-#   
+#
 #   Thursday: I worked on improving the project's codebase. I refactored several key functions to improve readability and performance.
-#   
+#
 #   Friday: I ended the week by documenting my work on the project. I created a detailed README file and commented my code to ensure that future team members can understand my work.
 #   """
-#   
+#
 #   brag_sheet_bullets = generate_brag_sheet(summary, name)
-#   
+#
 #   print(brag_sheet_bullets)
-#   
+#
 #   print("Prompt.py ran")
