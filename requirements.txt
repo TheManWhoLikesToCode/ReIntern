@@ -20,6 +20,7 @@ requests==2.28.1
 asyncio==3.4.3
 streamlit
 numpy
+gunicorn
 retry
 faiss-cpu
 nest_asyncio
