@@ -28,9 +28,5 @@ pytest-playwright
 undetected-chromedriver>=3.2.1
 markdownify>=0.11.6
 python-dotenv
-#   EdgeGPT == 0.3.5
-#   EdgeGPT == 0.6.10
-EdgeGPT == 0.4.4 # Version with my error catching
-flask_login
-flask_session
+EdgeGPT==0.13.2
 pymysql

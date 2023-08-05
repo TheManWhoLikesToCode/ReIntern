@@ -1,28 +1,23 @@
 # Author: Jaydin F
 # Date: 7/19/2023
 # Purpose: Query openLLM models like GPT-3
-from BingChatAPI import BingChat
-
-
 import os
+import asyncio
+from EdgeGPT.EdgeGPT import Chatbot, ConversationStyle
 
 
-def query_llm(prompt):
-    # Get the base directory
-    basedir = os.path.dirname(os.path.abspath(__file__))
-
-    # Construct the path to the cookiesBing.json file
-    cookie_path = os.path.join(basedir, 'cookiesBing.json')
-
-    # Create an instance of BingChat
-    # Options precise, creative or balaced
-    llm = BingChat(cookiepath=cookie_path, conversation_style="precise")
+async def query_llm(prompt):
+    # Create an instance of Chatbot
+    bot = await Chatbot.create()
 
     # Query the LLM with the provided prompt
-    response = llm(prompt)
+    response = await bot.ask(prompt=prompt, conversation_style=ConversationStyle.creative, simplify_response=True)
+
+    # Close the bot
+    await bot.close()
 
     # Return the LLM's response
-    return response
+    return response['text']
 
 
 def generate_weekly_email(tasks, name):
@@ -50,12 +45,8 @@ def generate_weekly_email(tasks, name):
     Remember: Only output the emai and Write in FIRST PERSON.
     """
 
-    print(f"Prompt: {prompt}")  # Debugging print statement
-
     # Query the LLM with the prompt
-    response = query_llm(prompt)
-
-    print(f"Response: {response}")  # Debugging print statement
+    response = asyncio.run(query_llm(prompt))
 
     # Process the response to create the email content
     email_content = response.split('. ')
@@ -89,7 +80,7 @@ def generate_brag_sheet(summary, name):
     """.format(summary=summary, name=name)
 
     # Query the LLM with the prompt
-    response = query_llm(prompt)
+    response = asyncio.run(query_llm(prompt))
 
     # Process the response to create a brag sheet
     brag_sheet = response.split('. ')
@@ -99,23 +90,19 @@ def generate_brag_sheet(summary, name):
     # Return the brag sheet
     return '\n'.join(brag_sheet)
 
- # Example usage:
-#   name = "Jaydin"
-#
-#   summary = """
-#   Monday: I started the week by attending a project kickoff meeting for a new client. I took detailed notes and was able to ask insightful questions about the client's needs.
-#
-#   Tuesday: I spent the day working on a data analysis task for the new project. I used Python and pandas to clean the data and generate preliminary insights.
-#
-#   Wednesday: I presented my initial findings to the project team. My clear communication and thorough analysis were appreciated by all team members.
-#
-#   Thursday: I worked on improving the project's codebase. I refactored several key functions to improve readability and performance.
-#
-#   Friday: I ended the week by documenting my work on the project. I created a detailed README file and commented my code to ensure that future team members can understand my work.
-#   """
-#
-#   brag_sheet_bullets = generate_brag_sheet(summary, name)
-#
-#   print(brag_sheet_bullets)
-#
-#   print("Prompt.py ran")
+
+# Example usage:
+name = "Jaydin"
+summary = """
+   Monday: I started the week by attending a project kickoff meeting for a new client. I took detailed notes and was able to ask insightful questions about the client's needs.
+
+   Tuesday: I spent the day working on a data analysis task for the new project. I used Python and pandas to clean the data and generate preliminary insights.
+
+   Wednesday: I presented my initial findings to the project team. My clear communication and thorough analysis were appreciated by all team members.
+
+   Thursday: I worked on improving the project's codebase. I refactored several key functions to improve readability and performance.
+
+   Friday: I ended the week by documenting my work on the project. I created a detailed README file and commented my code to ensure that future team members can understand my work.
+   """
+brag_sheet_bullets = generate_brag_sheet(summary, name)
+print(brag_sheet_bullets)

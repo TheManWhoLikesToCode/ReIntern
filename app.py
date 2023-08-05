@@ -14,7 +14,8 @@ from datetime import datetime, timedelta
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'your secret key'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///instance/database.db'
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///instance/database.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
