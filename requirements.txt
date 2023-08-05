@@ -1,6 +1,6 @@
 click==8.1.3
 email-validator==2.0.0.post2
-Flask==2.3.2
+Flask
 flask-behind-proxy==0.1.1
 Flask-Cors==4.0.0
 Flask-Login==0.6.2
