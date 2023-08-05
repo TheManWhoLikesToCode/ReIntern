@@ -3,7 +3,7 @@
 # Purpose: Query openLLM models like GPT-3
 import os
 import asyncio
-from typing import Union, Literal
+from typing import Union
 from EdgeGPT.EdgeGPT import Chatbot, ConversationStyle
 
 
