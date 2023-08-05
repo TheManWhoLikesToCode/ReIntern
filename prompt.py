@@ -3,6 +3,7 @@
 # Purpose: Query openLLM models like GPT-3
 import os
 import asyncio
+from typing import Union, Literal
 from EdgeGPT.EdgeGPT import Chatbot, ConversationStyle
 
 
@@ -104,5 +105,5 @@ summary = """
 
    Friday: I ended the week by documenting my work on the project. I created a detailed README file and commented my code to ensure that future team members can understand my work.
    """
-brag_sheet_bullets = generate_brag_sheet(summary, name)
-print(brag_sheet_bullets)
+# brag_sheet_bullets = generate_brag_sheet(summary, name)
+# print(brag_sheet_bullets)
