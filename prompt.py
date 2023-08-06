@@ -7,11 +7,14 @@ from typing import Union
 from EdgeGPT.EdgeGPT import Chatbot, ConversationStyle
 import json
 
+# Get the directory of the current script
+script_dir = os.path.dirname(os.path.realpath(__file__))
+
 async def query_llm(prompt):
     # Specify the path to your cookies file
-    cookies_file_path = "./cookiesBing.json"
+    cookies_file_path = os.path.join(script_dir, "cookiesBing.json")
 
-    # Load the cookies from the file
+    # Load cookies from a file
     with open(cookies_file_path, 'r') as f:
         cookies = json.load(f)
 
@@ -26,7 +29,6 @@ async def query_llm(prompt):
 
     # Return the LLM's response
     return response['text']
-
 
 
 def generate_weekly_email(tasks, name):
