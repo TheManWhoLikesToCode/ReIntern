@@ -5,11 +5,18 @@ import os
 import asyncio
 from typing import Union
 from EdgeGPT.EdgeGPT import Chatbot, ConversationStyle
-
+import json
 
 async def query_llm(prompt):
+    # Specify the path to your cookies file
+    cookies_file_path = "./cookiesBing.json"
+
+    # Load the cookies from the file
+    with open(cookies_file_path, 'r') as f:
+        cookies = json.load(f)
+
     # Create an instance of Chatbot
-    bot = await Chatbot.create()
+    bot = await Chatbot.create(cookies=cookies)
 
     # Query the LLM with the provided prompt
     response = await bot.ask(prompt=prompt, conversation_style=ConversationStyle.creative, simplify_response=True)
@@ -19,6 +26,7 @@ async def query_llm(prompt):
 
     # Return the LLM's response
     return response['text']
+
 
 
 def generate_weekly_email(tasks, name):
