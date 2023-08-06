@@ -2,30 +2,24 @@
 # Date: 7/19/2023
 # Purpose: Query openLLM models like GPT-3
 import os
-import asyncio
 from typing import Union
-from EdgeGPT.EdgeGPT import Chatbot, ConversationStyle
+from EdgeGPT.EdgeUtils import Query, Cookie
 
-
-async def query_llm(prompt):
-    # Create an instance of Chatbot
-    bot = await Chatbot.create()
-
-    # Query the LLM with the provided prompt
-    response = await bot.ask(prompt=prompt, conversation_style=ConversationStyle.creative, simplify_response=True)
-
-    # Close the bot
-    await bot.close()
+# Set the path to your cookies file
+Cookie.current_file_path = "./cookiesBing.json"
+def query_llm(prompt, style="creative"):
+    # Create an instance of Query
+    q = Query(prompt, style=style)
 
     # Return the LLM's response
-    return response['text']
-
+    return q.output
 
 def generate_weekly_email(tasks, name):
     # Convert the list of tasks into a string
     tasks_str = ', '.join(
         [f"{task['task']} on {task['date']}" for task in tasks])
 
+    # Define the prompt
     prompt = f"""
     You are an AI language model. Your task is to generate a weekly email for an intern named {name} based on their weekly activities. Here are the activities:
 
@@ -43,11 +37,11 @@ def generate_weekly_email(tasks, name):
 
     Based on this analysis, generate a paragraph for {name}'s weekly email to their boss from the first person perspective.
     
-    Remember: Only output the emai and Write in FIRST PERSON.
+    Remember: Only output the email and Write in FIRST PERSON.
     """
 
     # Query the LLM with the prompt
-    response = asyncio.run(query_llm(prompt))
+    response = query_llm(prompt)
 
     # Process the response to create the email content
     email_content = response.split('. ')
@@ -58,7 +52,6 @@ def generate_weekly_email(tasks, name):
 
     # Return the email
     return email
-
 
 def generate_brag_sheet(summary, name):
     # Define the prompt
@@ -81,7 +74,7 @@ def generate_brag_sheet(summary, name):
     """.format(summary=summary, name=name)
 
     # Query the LLM with the prompt
-    response = asyncio.run(query_llm(prompt))
+    response = query_llm(prompt)
 
     # Process the response to create a brag sheet
     brag_sheet = response.split('. ')
@@ -105,5 +98,5 @@ summary = """
 
    Friday: I ended the week by documenting my work on the project. I created a detailed README file and commented my code to ensure that future team members can understand my work.
    """
-# brag_sheet_bullets = generate_brag_sheet(summary, name)
-# print(brag_sheet_bullets)
+brag_sheet_bullets = generate_brag_sheet(summary, name)
+print(brag_sheet_bullets)
