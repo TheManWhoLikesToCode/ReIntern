@@ -59,8 +59,6 @@ function generateSummary() {
     });
 }
 
-// ... rest of your JavaScript code ...
-
 function addTask() {
   const task = document.getElementById("newTask").value;
   const date = document.getElementById("taskDate").value;
